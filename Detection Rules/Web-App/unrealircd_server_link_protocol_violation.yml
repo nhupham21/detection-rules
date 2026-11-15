@@ -1,0 +1,32 @@
+title: UnrealIRCd Server Link Sent Malformed or Legacy Protocol Commands
+id: 583e1e44-70ae-4592-9178-14607f6d2d08
+status: experimental
+description: |
+    Detects UnrealIRCd rejecting protocol commands from a linked server: legacy SERVER or NICK
+    introductions, a bad UID or a bad remote nick. Between healthy UnrealIRCd 6 servers these should not
+    happen, and lines injected into a server link (CVE-2026-114713) by a careless attacker can trigger them.
+references:
+    - https://seclists.org/oss-sec/2026/q4/576
+    - https://www.unrealircd.org/docs/List_of_all_log_messages
+    - https://netsec101.com/?p=243
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.initial-access
+    - attack.t1190
+logsource:
+    product: unrealircd
+    category: application
+    definition: 'UnrealIRCd 6 log block with type json, subsystems link and nick logged'
+detection:
+    selection:
+        event_id:
+            - 'LINK_OLD_PROTOCOL'
+            - 'LINK_OLD_PROTOCOL_NICK'
+            - 'BAD_UID'
+            - 'BAD_NICK_REMOTE'
+    condition: selection
+falsepositives:
+    - A misconfigured or very old server or services package being linked for the first time
+    - Third-party IRCd or pseudo-server software with protocol bugs
+level: medium

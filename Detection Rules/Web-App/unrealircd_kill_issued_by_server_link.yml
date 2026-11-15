@@ -1,0 +1,36 @@
+title: UnrealIRCd KILL Issued by a Server Instead of an Operator or Services Nick
+id: 99cd63d6-2495-4f13-a2a8-aa68cb669a55
+status: experimental
+description: |
+    Detects a KILL whose source is a server name rather than a user. Opers and services kill with a
+    nickname; a KILL sourced from a server is unusual on a modern UnrealIRCd 6 network and is the kind of
+    command an attacker gains by injecting lines into a server link, as with CVE-2026-114713.
+references:
+    - https://seclists.org/oss-sec/2026/q4/576
+    - https://www.unrealircd.org/docs/JSON_logging
+    - https://www.unrealircd.org/docs/List_of_all_log_messages
+    - https://netsec101.com/?p=243
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.impact
+    - attack.t1531
+logsource:
+    product: unrealircd
+    category: application
+    definition: 'UnrealIRCd 6 log block with type json; client is the killer, target is the victim'
+detection:
+    selection_event:
+        subsystem: 'kill'
+        event_id: 'KILL_COMMAND'
+    selection_server_source:
+        # Nicknames cannot contain a dot, server names must: a dot means the KILL came from a server
+        client.name|contains: '.'
+    filter_optional_services:
+        # Replace with the server name(s) of your services package if it kills from its server name
+        client.name: 'services.example.invalid'
+    condition: all of selection_* and not 1 of filter_optional_*
+falsepositives:
+    - Services packages (Anope, Atheme) that issue kills from the services server name, for example on nick enforcement or akill
+    - Server-side kills from older or mixed-version links during netsplits and collisions
+level: medium

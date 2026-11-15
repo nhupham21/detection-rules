@@ -312,5 +312,89 @@
                  ],
         "article":  "https://netsec101.com/?p=240",
         "updated":  "2026-11-16"
+    },
+    {
+        "id":  "ec7bc0ea-16eb-4a06-9571-437e3d2859ec",
+        "title":  "UnrealIRCd CVE-2026-114713 Label Injection Blocked by Workaround Spamfilter",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/unrealircd_cve_2026_114713_spamfilter_invalid_label.yml",
+        "logsource":  "unrealircd/application",
+        "attack":  [
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "initial-access"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "UnrealIRCd labeled-response label injection (CVE-2026-114713)",
+        "cves":  [
+                     "CVE-2026-114713"
+                 ],
+        "article":  "https://netsec101.com/?p=243",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "99cd63d6-2495-4f13-a2a8-aa68cb669a55",
+        "title":  "UnrealIRCd KILL Issued by a Server Instead of an Operator or Services Nick",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/unrealircd_kill_issued_by_server_link.yml",
+        "logsource":  "unrealircd/application",
+        "attack":  [
+                       "T1531"
+                   ],
+        "tactics":  [
+                        "impact"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "UnrealIRCd labeled-response label injection (CVE-2026-114713)",
+        "cves":  [
+                     "CVE-2026-114713"
+                 ],
+        "article":  "https://netsec101.com/?p=243",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "620c1da5-96b9-4c60-936c-b88796576bb1",
+        "title":  "UnrealIRCd Network Ban or Shun Added - Hunting",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/unrealircd_network_ban_added_hunting.yml",
+        "logsource":  "unrealircd/application",
+        "attack":  [
+                       "T1531"
+                   ],
+        "tactics":  [
+                        "impact"
+                    ],
+        "level":  "low",
+        "status":  "experimental",
+        "case":  "UnrealIRCd labeled-response label injection (CVE-2026-114713)",
+        "cves":  [
+                     "CVE-2026-114713"
+                 ],
+        "article":  "https://netsec101.com/?p=243",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "583e1e44-70ae-4592-9178-14607f6d2d08",
+        "title":  "UnrealIRCd Server Link Sent Malformed or Legacy Protocol Commands",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/unrealircd_server_link_protocol_violation.yml",
+        "logsource":  "unrealircd/application",
+        "attack":  [
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "initial-access"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "UnrealIRCd labeled-response label injection (CVE-2026-114713)",
+        "cves":  [
+                     "CVE-2026-114713"
+                 ],
+        "article":  "https://netsec101.com/?p=243",
+        "updated":  "2026-11-16"
     }
 ]

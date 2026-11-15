@@ -1,0 +1,37 @@
+title: UnrealIRCd CVE-2026-114713 Label Injection Blocked by Workaround Spamfilter
+id: ec7bc0ea-16eb-4a06-9571-437e3d2859ec
+status: test
+description: |
+    Detects a hit on the vendor-published spamfilter workaround for CVE-2026-114713, which blocks
+    IRCv3 label tags that contain CR, LF, a semicolon or a space after unescaping. No legitimate
+    client needs such a label, so a hit is a client trying to inject server-to-server commands.
+references:
+    - https://seclists.org/oss-sec/2026/q4/576
+    - https://www.unrealircd.org/docs/List_of_all_log_messages
+    - https://www.unrealircd.org/docs/Spamfilter
+    - https://netsec101.com/?p=243
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-114713
+    - detection.emerging-threats
+logsource:
+    product: unrealircd
+    category: application
+    definition: 'UnrealIRCd 6 log block with type json (fields subsystem, event_id, msg); spamfilter from the advisory applied network-wide'
+detection:
+    selection_event:
+        subsystem: 'tkl'
+        event_id: 'SPAMFILTER_MATCH'
+    selection_label:
+        - msg|contains: "matches filter '^label="
+        - msg|contains:
+              - '[reason: Invalid label]'
+              - '[reason: Invalid_label]'
+    condition: all of selection_*
+falsepositives:
+    - A buggy client or bot library that sends spaces or semicolons in labels without escaping them (rare; check the client version string)
+    - IRCOps testing the spamfilter after deploying it
+level: high

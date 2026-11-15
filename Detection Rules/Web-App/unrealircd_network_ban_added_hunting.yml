@@ -1,0 +1,37 @@
+title: UnrealIRCd Network Ban or Shun Added - Hunting
+id: 620c1da5-96b9-4c60-936c-b88796576bb1
+status: experimental
+description: |
+    Surfaces every G-Line, Z-Line, Shun and temporary shun added on the network, for review against the
+    oper roster and for burst counting. Network-wide bans are one of the server-authority actions an
+    attacker gets through CVE-2026-114713, and the set_by value can be forged in an injected line.
+references:
+    - https://seclists.org/oss-sec/2026/q4/576
+    - https://www.unrealircd.org/docs/List_of_all_log_messages
+    - https://netsec101.com/?p=243
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.impact
+    - attack.t1531
+    - detection.threat-hunting
+logsource:
+    product: unrealircd
+    category: application
+    definition: 'UnrealIRCd 6 log block with type json, subsystem tkl logged'
+detection:
+    selection_event:
+        subsystem: 'tkl'
+        event_id:
+            - 'TKL_ADD'
+            - 'TKL_ADD_TEMPSHUN'
+    selection_type:
+        msg|contains:
+            - 'G-Line'
+            - 'Z-Line'
+            - 'Shun'
+    condition: all of selection_*
+falsepositives:
+    - Normal oper and services ban activity (this is a hunting rule; aggregate by set_by and hour and review)
+    - Spamfilter, blacklist and connect-flood actions that place automatic bans
+level: low
