@@ -1,0 +1,54 @@
+title: N-central Java Process Spawning Download Tool, Interpreter or Non-stty Shell
+id: 79dc7647-a4e7-41cc-a26e-a9f45d93af95
+status: experimental
+description: |
+    Detects the Java web stack on an N-central server spawning curl, wget, Python, netcat or socat, or a shell whose
+    command line fetches or runs something, while excluding the stty calls JLine makes legitimately. 4EverAble2Shell
+    turns an Axis class instantiation into shell commands as the nable account; the exact process tree is inferred.
+references:
+    - https://huntback.io/blog/ncentral-4everable2shell-miners-on-live-servers
+    - https://www.cve.org/CVERecord?id=CVE-2026-90436
+    - https://netsec101.com/?p=240
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.execution
+    - attack.t1059.004
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-90436
+logsource:
+    product: linux
+    category: process_creation
+detection:
+    selection_parent:
+        ParentImage|endswith: '/java'
+    selection_child_tool:
+        Image|endswith:
+            - '/curl'
+            - '/wget'
+            - '/python'
+            - '/python3'
+            - '/nc'
+            - '/ncat'
+            - '/socat'
+    selection_child_shell:
+        Image|endswith:
+            - '/sh'
+            - '/bash'
+            - '/dash'
+        CommandLine|contains:
+            - 'curl '
+            - 'wget '
+            - 'python'
+            - '/dev/tcp/'
+            - '/tmp/'
+            - '/var/tmp/'
+            - 'base64'
+    filter_main_stty:
+        CommandLine|contains: 'stty'
+    condition: selection_parent and 1 of selection_child_* and not filter_main_stty
+falsepositives:
+    - N-central maintenance or update jobs started by the application that call curl, wget or Python (baseline for a week and exclude by full command line)
+    - Administrator scripts launched from the N-central UI
+level: medium

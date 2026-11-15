@@ -1,0 +1,38 @@
+title: Traffic With 4EverAble2Shell Mining Campaign Infrastructure
+id: 5d5efa38-db95-49a5-a684-d8a9dc69827a
+status: test
+description: |
+    Detects inbound connections from the exploit and payload host 157.20.241.16, and outbound connections to it or to
+    the two mining pool addresses Huntback tied to the N-central mining campaign of November 12, 2026.
+    IOC rule with a short shelf life; use it for retro-hunting and review it after 30 days.
+references:
+    - https://huntback.io/blog/ncentral-4everable2shell-miners-on-live-servers
+    - https://www.bleepingcomputer.com/news/security/new-n-able-4everable2shell-zero-day-exploited-hours-after-poc-released/
+    - https://netsec101.com/?p=240
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.command-and-control
+    - attack.t1105
+    - attack.impact
+    - attack.t1496.001
+    - attack.initial-access
+    - attack.t1190
+    - detection.emerging-threats
+logsource:
+    category: firewall
+detection:
+    selection_inbound:
+        src_ip: '157.20.241.16'
+    selection_outbound_payload:
+        dst_ip: '157.20.241.16'
+    selection_outbound_pool_1:
+        dst_ip: '139.99.69.109'
+        dst_port: 10128
+    selection_outbound_pool_2:
+        dst_ip: '79.76.51.56'
+        dst_port: 39100
+    condition: 1 of selection_*
+falsepositives:
+    - Shared hosting or mining-pool addresses reused by unrelated services after the campaign ends
+level: high

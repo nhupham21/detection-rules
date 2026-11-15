@@ -1,3 +1,116 @@
 [
-
+    {
+        "id":  "79dc7647-a4e7-41cc-a26e-a9f45d93af95",
+        "title":  "N-central Java Process Spawning Download Tool, Interpreter or Non-stty Shell",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/proc_creation_lnx_ncentral_java_suspicious_child.yml",
+        "logsource":  "linux/process_creation",
+        "attack":  [
+                       "T1059.004",
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "execution",
+                        "initial-access"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "N-able N-central 4EverAble2Shell (CVE-2026-90436)",
+        "cves":  [
+                     "CVE-2026-90436"
+                 ],
+        "article":  "https://netsec101.com/?p=240",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "7d9c173d-c462-4534-8b58-8530428b40ae",
+        "title":  "N-central ServerChild Backup or Result File Created - 4EverAble2Shell Root Escalation",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/file_event_lnx_ncentral_serverchild_root_escalation.yml",
+        "logsource":  "linux/file_event",
+        "attack":  [
+                       "T1068"
+                   ],
+        "tactics":  [
+                        "privilege-escalation"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "N-able N-central 4EverAble2Shell (CVE-2026-90436)",
+        "cves":  [
+                     "CVE-2026-90436"
+                 ],
+        "article":  "https://netsec101.com/?p=240",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "be2235c4-7763-45ed-8069-29826d11f456",
+        "title":  "XVD Miner Staging or Persistence Files Created - N-central 4EverAble2Shell Campaign",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/file_event_lnx_xvd_miner_staging_persistence.yml",
+        "logsource":  "linux/file_event",
+        "attack":  [
+                       "T1543.002",
+                       "T1053.003",
+                       "T1496.001"
+                   ],
+        "tactics":  [
+                        "persistence",
+                        "impact"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "N-able N-central 4EverAble2Shell (CVE-2026-90436)",
+        "cves":  [
+                     "CVE-2026-90436"
+                 ],
+        "article":  "https://netsec101.com/?p=240",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "5d5efa38-db95-49a5-a684-d8a9dc69827a",
+        "title":  "Traffic With 4EverAble2Shell Mining Campaign Infrastructure",
+        "domain":  "Network",
+        "path":  "Detection Rules/Network/net_firewall_ncentral_4everable2shell_campaign_ips.yml",
+        "logsource":  "firewall",
+        "attack":  [
+                       "T1105",
+                       "T1496.001",
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "command-and-control",
+                        "impact",
+                        "initial-access"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "N-able N-central 4EverAble2Shell (CVE-2026-90436)",
+        "cves":  [
+                     "CVE-2026-90436"
+                 ],
+        "article":  "https://netsec101.com/?p=240",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "cd9b774f-9fdd-4533-8134-4d7d7ee541f5",
+        "title":  "N-central Axis SOAP Fault Naming JLine TerminalLineSettings - CVE-2026-90436 (4EverAble2Shell)",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_cve_2026_90436_ncentral_axis_jline_soap_fault.yml",
+        "logsource":  "webserver",
+        "attack":  [
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "initial-access"
+                    ],
+        "level":  "critical",
+        "status":  "test",
+        "case":  "N-able N-central 4EverAble2Shell (CVE-2026-90436)",
+        "cves":  [
+                     "CVE-2026-90436"
+                 ],
+        "article":  "https://netsec101.com/?p=240",
+        "updated":  "2026-11-16"
+    }
 ]

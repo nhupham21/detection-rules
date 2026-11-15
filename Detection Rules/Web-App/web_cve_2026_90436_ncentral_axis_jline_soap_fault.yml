@@ -1,0 +1,32 @@
+title: N-central Axis SOAP Fault Naming JLine TerminalLineSettings - CVE-2026-90436 (4EverAble2Shell)
+id: cd9b774f-9fdd-4533-8134-4d7d7ee541f5
+status: test
+description: |
+    Detects a POST to the N-central Apache Axis 1.x endpoint /dms/services/ServerUI whose body names the
+    class jline.internal.TerminalLineSettings, the gadget the 4EverAble2Shell chain asks Axis to instantiate
+    through the SOAP fault exceptionName element (CVE-2026-90436). Needs a proxy or WAF that logs request bodies;
+    request_body is not a standard webserver field, so map it to your body field (for example http.request.body.content).
+references:
+    - https://huntress.com/blog/n-able-disables-cloud-services-following-disclosure-of-able2shell-exploit-chains
+    - https://huntback.io/blog/ncentral-4everable2shell-miners-on-live-servers
+    - https://www.cve.org/CVERecord?id=CVE-2026-90436
+    - https://netsec101.com/?p=240
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-90436
+    - detection.emerging-threats
+logsource:
+    category: webserver
+detection:
+    selection_request:
+        cs-method: 'POST'
+        cs-uri-stem|contains: '/dms/services/ServerUI'
+    selection_body:
+        request_body|contains: 'jline.internal.TerminalLineSettings'
+    condition: all of selection_*
+falsepositives:
+    - Authorised penetration tests or vulnerability scanners replaying the public PoC
+level: critical

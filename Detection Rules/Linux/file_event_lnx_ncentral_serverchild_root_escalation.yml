@@ -1,0 +1,32 @@
+title: N-central ServerChild Backup or Result File Created - 4EverAble2Shell Root Escalation
+id: 7d9c173d-c462-4534-8b58-8530428b40ae
+status: test
+description: |
+    Detects creation of serverchild-*.bak, .sh or .out files in /var/opt/n-central/tmp/, which the 4EverAble2Shell
+    escalation script writes while it abuses nable_wrapper.pl and a flag_default.json symlink to run ServerChild.sh
+    as root. The tool deletes these files afterwards, so the creation event is the evidence, not the file on disk.
+references:
+    - https://huntback.io/blog/ncentral-4everable2shell-miners-on-live-servers
+    - https://huntress.com/blog/n-able-disables-cloud-services-following-disclosure-of-able2shell-exploit-chains
+    - https://www.bleepingcomputer.com/news/security/new-n-able-4everable2shell-zero-day-exploited-hours-after-poc-released/
+    - https://netsec101.com/?p=240
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.privilege-escalation
+    - attack.t1068
+    - detection.emerging-threats
+logsource:
+    product: linux
+    category: file_event
+detection:
+    selection:
+        TargetFilename|startswith: '/var/opt/n-central/tmp/serverchild-'
+        TargetFilename|endswith:
+            - '.bak'
+            - '.sh'
+            - '.out'
+    condition: selection
+falsepositives:
+    - Unknown. N-central is not documented to create serverchild-* files in this folder; confirm on a clean appliance before paging on it
+level: high
