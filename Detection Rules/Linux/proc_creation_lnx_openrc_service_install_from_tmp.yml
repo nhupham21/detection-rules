@@ -1,0 +1,39 @@
+title: OpenRC Init Script Copied From Temp Directory Or Service Enabled With rc-update
+id: f358579a-ccfb-4819-bccf-3754deec45d0
+status: experimental
+description: |
+    Detects an init script being copied or moved from /tmp, /var/tmp or /dev/shm into /etc/init.d, or a service being
+    added to an OpenRC runlevel with rc-update. After sshole (CVE-2026-123158) exploitation on Alpine, GreyNoise
+    observed an attacker install a C2 agent as an OpenRC service this way.
+references:
+    - https://sshole.events.greynoise.io/
+    - https://bleepingcomputer.com/news/security/hackers-exploit-sshole-openssh-flaw-to-breach-linux-systems
+    - https://netsec101.com/?p=242
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.persistence
+    - attack.t1543
+logsource:
+    product: linux
+    category: process_creation
+detection:
+    # busybox applets (cp, mv) resolve Image to /bin/busybox on Alpine, so match argv[0] in the command line
+    selection_copy_tool:
+        CommandLine|re: '^(\S*/)?(cp|mv|install|ln)\s'
+    selection_copy_src:
+        CommandLine|contains:
+            - '/tmp/'
+            - '/var/tmp/'
+            - '/dev/shm/'
+    selection_copy_dst:
+        CommandLine|contains: '/etc/init.d/'
+    selection_rcupdate_img:
+        Image|endswith: '/rc-update'
+    selection_rcupdate_cli:
+        CommandLine|contains: ' add '
+    condition: all of selection_copy_* or all of selection_rcupdate_*
+falsepositives:
+    - Provisioning and configuration management runs (Ansible, cloud-init, image build scripts) that enable services with rc-update
+    - Admins installing a hand-written service script
+level: medium

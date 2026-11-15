@@ -22,6 +22,27 @@
         "updated":  "2026-11-16"
     },
     {
+        "id":  "e2c8278b-f88d-40c8-a9a4-3a339e3b0712",
+        "title":  "Additional sshd Listener Started With Forwarding Options Or From A Shell",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/proc_creation_lnx_sshd_rogue_listener_forwarding.yml",
+        "logsource":  "linux/process_creation",
+        "attack":  [
+                       "T1572"
+                   ],
+        "tactics":  [
+                        "command-and-control"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "OpenSSH sshole on musl without PAM (CVE-2026-123158)",
+        "cves":  [
+                     "CVE-2026-123158"
+                 ],
+        "article":  "https://netsec101.com/?p=242",
+        "updated":  "2026-11-16"
+    },
+    {
         "id":  "79dc7647-a4e7-41cc-a26e-a9f45d93af95",
         "title":  "N-central Java Process Spawning Download Tool, Interpreter or Non-stty Shell",
         "domain":  "Linux",
@@ -66,6 +87,70 @@
         "updated":  "2026-11-16"
     },
     {
+        "id":  "bd55c2aa-598d-4d2d-9d73-0bab7c3f55f8",
+        "title":  "Non-Interactive Doas Execution On Alpine Host",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/proc_creation_lnx_doas_noninteractive_probe.yml",
+        "logsource":  "linux/process_creation",
+        "attack":  [
+                       "T1548.003"
+                   ],
+        "tactics":  [
+                        "privilege-escalation"
+                    ],
+        "level":  "low",
+        "status":  "experimental",
+        "case":  "OpenSSH sshole on musl without PAM (CVE-2026-123158)",
+        "cves":  [
+                     "CVE-2026-123158"
+                 ],
+        "article":  "https://netsec101.com/?p=242",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "f358579a-ccfb-4819-bccf-3754deec45d0",
+        "title":  "OpenRC Init Script Copied From Temp Directory Or Service Enabled With rc-update",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/proc_creation_lnx_openrc_service_install_from_tmp.yml",
+        "logsource":  "linux/process_creation",
+        "attack":  [
+                       "T1543"
+                   ],
+        "tactics":  [
+                        "persistence"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "OpenSSH sshole on musl without PAM (CVE-2026-123158)",
+        "cves":  [
+                     "CVE-2026-123158"
+                 ],
+        "article":  "https://netsec101.com/?p=242",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "2e635140-37d2-48cd-913d-ee473f0b36f9",
+        "title":  "Potential CVE-2026-123158 Exploitation - SSH Password Login To Root Or Alpine Account",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/lnx_sshd_cve_2026_123158_password_login_star_account.yml",
+        "logsource":  "linux/sshd",
+        "attack":  [
+                       "T1190",
+                       "T1078.003"
+                   ],
+        "tactics":  [
+                        "initial-access"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "OpenSSH sshole on musl without PAM (CVE-2026-123158)",
+        "cves":  [
+                     "CVE-2026-123158"
+                 ],
+        "article":  "https://netsec101.com/?p=242",
+        "updated":  "2026-11-16"
+    },
+    {
         "id":  "8b70f30f-bb47-49f3-b398-4ff7379f0ca2",
         "title":  "Suspicious Child Of Barracuda Timezone Helper - Potential CVE-2026-111560 Exploitation",
         "domain":  "Linux",
@@ -87,6 +172,31 @@
                      "CVE-2026-111560"
                  ],
         "article":  "https://netsec101.com/?p=241",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "725fec7b-3138-4c73-a077-bef014f69788",
+        "title":  "TAC Agent C2 Implant Activity Seen After CVE-2026-123158 Exploitation",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/proc_creation_lnx_cve_2026_123158_tac_agent_activity.yml",
+        "logsource":  "linux/process_creation",
+        "attack":  [
+                       "T1059.006",
+                       "T1071.001",
+                       "T1543"
+                   ],
+        "tactics":  [
+                        "execution",
+                        "command-and-control",
+                        "persistence"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "OpenSSH sshole on musl without PAM (CVE-2026-123158)",
+        "cves":  [
+                     "CVE-2026-123158"
+                 ],
+        "article":  "https://netsec101.com/?p=242",
         "updated":  "2026-11-16"
     },
     {

@@ -1,0 +1,46 @@
+title: Additional sshd Listener Started With Forwarding Options Or From A Shell
+id: e2c8278b-f88d-40c8-a9a4-3a339e3b0712
+status: experimental
+description: |
+    Detects an sshd process started with forwarding or tunnelling options on its command line, or started with a
+    custom port by a shell or doas. After sshole (CVE-2026-123158) exploitation, GreyNoise observed attackers start a
+    second sshd on port 2222 with AllowTcpForwarding=yes to keep a tunnel into the network.
+references:
+    - https://sshole.events.greynoise.io/
+    - https://bleepingcomputer.com/news/security/hackers-exploit-sshole-openssh-flaw-to-breach-linux-systems
+    - https://netsec101.com/?p=242
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.command-and-control
+    - attack.t1572
+    - cve.2026-123158
+logsource:
+    product: linux
+    category: process_creation
+detection:
+    selection_img:
+        Image|endswith: '/sshd'
+    selection_cli_forwarding:
+        CommandLine|contains:
+            - 'AllowTcpForwarding=yes'
+            - 'AllowTcpForwarding=all'
+            - 'GatewayPorts=yes'
+            - 'PermitTunnel=yes'
+    selection_cli_port:
+        CommandLine|contains: ' -p '
+    selection_parent_shell:
+        ParentImage|endswith:
+            - '/sh'
+            - '/ash'
+            - '/bash'
+            - '/dash'
+            - '/zsh'
+            - '/busybox'
+            - '/doas'
+            - '/sudo'
+    condition: selection_img and (selection_cli_forwarding or (selection_cli_port and selection_parent_shell))
+falsepositives:
+    - Container images whose entrypoint script starts sshd on a custom port without exec (for example SSH or SFTP images listening on 2222)
+    - Admins testing a new sshd configuration on a spare port
+level: high

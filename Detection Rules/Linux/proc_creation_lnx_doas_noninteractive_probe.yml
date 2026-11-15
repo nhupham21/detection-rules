@@ -1,0 +1,29 @@
+title: Non-Interactive Doas Execution On Alpine Host
+id: bd55c2aa-598d-4d2d-9d73-0bab7c3f55f8
+status: experimental
+description: |
+    Hunts for doas run with -n (non-interactive, fail instead of prompting). After sshole (CVE-2026-123158)
+    exploitation of the Alpine cloud-image "alpine" user, which has passwordless doas, GreyNoise observed the attacker
+    probe with "doas -n id" and then run every root step through "doas -n".
+references:
+    - https://sshole.events.greynoise.io/
+    - https://alpinelinux.org/posts/2026-11-05-openssh-password-authentication-bypass/
+    - https://netsec101.com/?p=242
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.privilege-escalation
+    - attack.t1548.003
+    - detection.threat-hunting
+logsource:
+    product: linux
+    category: process_creation
+detection:
+    selection:
+        Image|endswith: '/doas'
+        CommandLine|contains: ' -n '
+    condition: selection
+falsepositives:
+    - Automation and monitoring scripts that call doas -n by design
+    - Configuration management agents running privileged steps over SSH
+level: low
