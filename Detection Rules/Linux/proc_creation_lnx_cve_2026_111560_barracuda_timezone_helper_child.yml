@@ -1,0 +1,48 @@
+title: Suspicious Child Of Barracuda Timezone Helper - Potential CVE-2026-111560 Exploitation
+id: 8b70f30f-bb47-49f3-b398-4ff7379f0ca2
+status: experimental
+description: |
+    Detects an interpreter, download or network tool started by a process whose command line references
+    the Barracuda timezone helper (fix_tz.pl) or the timezone files it rewrites. watchTowr reports that
+    CVE-2026-111560 reaches shell-backed sed calls run as root through sudo, so injected commands would
+    appear as unexpected children of that chain. Inferred from the published code review, not from incident data.
+references:
+    - https://labs.watchtowr.com/barracuda-networks-is-your-new-best-friend-barracuda-email-security-gateway-pre-auth-remote-root-rce-cve-2026-116606-cve-2026-111560/
+    - https://github.com/mandiant/Vulnerability-Disclosures/blob/master/2026/MNDT-2026-0041.md
+    - https://netsec101.com/?p=241
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.execution
+    - attack.t1059.004
+    - attack.privilege-escalation
+    - attack.t1068
+    - cve.2026-111560
+    - detection.emerging-threats
+logsource:
+    product: linux
+    category: process_creation
+detection:
+    selection_parent:
+        ParentCommandLine|contains:
+            - 'fix_tz.pl'
+            - '/etc/sysconfig/clock'
+            - '/home/product/code/config/tz'
+    selection_child:
+        Image|endswith:
+            - '/curl'
+            - '/wget'
+            - '/nc'
+            - '/ncat'
+            - '/socat'
+            - '/python'
+            - '/python3'
+            - '/openssl'
+            - '/base64'
+            - '/tftp'
+            - '/ftp'
+            - '/telnet'
+    condition: all of selection_*
+falsepositives:
+    - Unknown. A normal timezone change should only run sh and sed from this chain, which is why shells are not in the child list; validate against a lab appliance first
+level: high

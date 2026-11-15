@@ -1,5 +1,27 @@
 [
     {
+        "id":  "df89c9e8-2820-452e-a14a-2f3431ae0672",
+        "title":  "Barracuda ESG Failed Password Change Audit Event - Potential CVE-2026-116606 Exploitation",
+        "domain":  "Email",
+        "path":  "Detection Rules/Email/barracuda_esg_cve_2026_116606_failed_password_change_event.yml",
+        "logsource":  "barracuda/esg",
+        "attack":  [
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "initial-access"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "Barracuda ESG auth bypass to root chain (CVE-2026-116606, CVE-2026-111560)",
+        "cves":  [
+                     "CVE-2026-116606",
+                     "CVE-2026-111560"
+                 ],
+        "article":  "https://netsec101.com/?p=241",
+        "updated":  "2026-11-16"
+    },
+    {
         "id":  "79dc7647-a4e7-41cc-a26e-a9f45d93af95",
         "title":  "N-central Java Process Spawning Download Tool, Interpreter or Non-stty Shell",
         "domain":  "Linux",
@@ -44,6 +66,30 @@
         "updated":  "2026-11-16"
     },
     {
+        "id":  "8b70f30f-bb47-49f3-b398-4ff7379f0ca2",
+        "title":  "Suspicious Child Of Barracuda Timezone Helper - Potential CVE-2026-111560 Exploitation",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/proc_creation_lnx_cve_2026_111560_barracuda_timezone_helper_child.yml",
+        "logsource":  "linux/process_creation",
+        "attack":  [
+                       "T1059.004",
+                       "T1068"
+                   ],
+        "tactics":  [
+                        "execution",
+                        "privilege-escalation"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "Barracuda ESG auth bypass to root chain (CVE-2026-116606, CVE-2026-111560)",
+        "cves":  [
+                     "CVE-2026-116606",
+                     "CVE-2026-111560"
+                 ],
+        "article":  "https://netsec101.com/?p=241",
+        "updated":  "2026-11-16"
+    },
+    {
         "id":  "be2235c4-7763-45ed-8069-29826d11f456",
         "title":  "XVD Miner Staging or Persistence Files Created - N-central 4EverAble2Shell Campaign",
         "domain":  "Linux",
@@ -65,6 +111,28 @@
                      "CVE-2026-90436"
                  ],
         "article":  "https://netsec101.com/?p=240",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "f7666d18-c033-4f47-a0e3-51877cec0583",
+        "title":  "Barracuda ESG Appliance Outbound Connection On Unusual Port",
+        "domain":  "Network",
+        "path":  "Detection Rules/Network/net_firewall_barracuda_esg_unusual_outbound_port.yml",
+        "logsource":  "firewall",
+        "attack":  [
+                       "T1071"
+                   ],
+        "tactics":  [
+                        "command-and-control"
+                    ],
+        "level":  "low",
+        "status":  "experimental",
+        "case":  "Barracuda ESG auth bypass to root chain (CVE-2026-116606, CVE-2026-111560)",
+        "cves":  [
+                     "CVE-2026-116606",
+                     "CVE-2026-111560"
+                 ],
+        "article":  "https://netsec101.com/?p=241",
         "updated":  "2026-11-16"
     },
     {
@@ -90,6 +158,28 @@
                      "CVE-2026-90436"
                  ],
         "article":  "https://netsec101.com/?p=240",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "3a7e544c-c8b8-4c44-8efc-87e545f44760",
+        "title":  "Barracuda ESG Admin CGI POST From Public IP - Potential CVE-2026-116606 Exploitation",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_cve_2026_116606_barracuda_esg_admin_cgi_post_public_ip.yml",
+        "logsource":  "webserver",
+        "attack":  [
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "initial-access"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "Barracuda ESG auth bypass to root chain (CVE-2026-116606, CVE-2026-111560)",
+        "cves":  [
+                     "CVE-2026-116606",
+                     "CVE-2026-111560"
+                 ],
+        "article":  "https://netsec101.com/?p=241",
         "updated":  "2026-11-16"
     },
     {

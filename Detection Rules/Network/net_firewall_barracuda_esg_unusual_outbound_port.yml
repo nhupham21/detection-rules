@@ -1,0 +1,44 @@
+title: Barracuda ESG Appliance Outbound Connection On Unusual Port
+id: f7666d18-c033-4f47-a0e3-51877cec0583
+status: experimental
+description: |
+    Hunts for outbound connections initiated by a Barracuda Email Security Gateway to ports outside the small
+    set a mail gateway normally needs (SMTP, DNS, NTP, HTTP/HTTPS). After CVE-2026-116606 and CVE-2026-111560
+    were reported exploited with no published IOCs, egress from the appliance is one of the few signals
+    defenders control. Generic hunting logic, not based on observed attacker traffic.
+references:
+    - https://trust.barracuda.com/security/pre-authentication-authorization-bypass-command-injection
+    - https://fieldeffect.com/blog/barracuda-esg-flaws-root-access
+    - https://netsec101.com/?p=241
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.command-and-control
+    - attack.t1071
+    - cve.2026-116606
+    - cve.2026-111560
+    - detection.threat-hunting
+logsource:
+    category: firewall
+detection:
+    selection_src:
+        src_ip|expand: '%barracuda_esg_ips%'
+    filter_main_ports:
+        dst_port:
+            - 25
+            - 53
+            - 80
+            - 123
+            - 443
+            - 587
+    filter_main_internal:
+        dst_ip|cidr:
+            - '10.0.0.0/8'
+            - '172.16.0.0/12'
+            - '192.168.0.0/16'
+    condition: selection_src and not 1 of filter_main_*
+falsepositives:
+    - Syslog, SNMP, LDAP or cloud-archive integrations configured on the appliance; add those ports or destinations as filters
+    - Barracuda remote support tunnels opened at the customer's request
+    - The internal filter hides lateral movement towards internal hosts; drop it if you can baseline internal flows instead
+level: low

@@ -1,0 +1,44 @@
+title: Barracuda ESG Admin CGI POST From Public IP - Potential CVE-2026-116606 Exploitation
+id: 3a7e544c-c8b8-4c44-8efc-87e545f44760
+status: test
+description: |
+    Detects HTTP POST requests to the Barracuda Email Security Gateway admin CGI endpoint
+    (/cgi-mod/index.cgi) from a source outside private address space. watchTowr's analysis places both
+    the CVE-2026-116606 authentication bypass and the CVE-2026-111560 timezone injection behind this
+    endpoint, and Barracuda's mitigation is to keep the admin UI off untrusted networks.
+references:
+    - https://trust.barracuda.com/security/pre-authentication-authorization-bypass-command-injection
+    - https://github.com/mandiant/Vulnerability-Disclosures/blob/master/2026/MNDT-2026-0042.md
+    - https://labs.watchtowr.com/barracuda-networks-is-your-new-best-friend-barracuda-email-security-gateway-pre-auth-remote-root-rce-cve-2026-116606-cve-2026-111560/
+    - https://netsec101.com/?p=241
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-116606
+    - cve.2026-111560
+    - detection.emerging-threats
+logsource:
+    category: webserver
+detection:
+    selection_uri:
+        cs-uri-stem|endswith: '/cgi-mod/index.cgi'
+    selection_method:
+        cs-method: 'POST'
+    filter_main_private:
+        c-ip|cidr:
+            - '10.0.0.0/8'
+            - '172.16.0.0/12'
+            - '192.168.0.0/16'
+            - '127.0.0.0/8'
+            - '169.254.0.0/16'
+            - '::1/128'
+            - 'fc00::/7'
+            - 'fe80::/10'
+    condition: all of selection_* and not 1 of filter_main_*
+falsepositives:
+    - Administrators who legitimately manage the appliance over the internet (the exposure Barracuda advises against); add their fixed egress IPs as a filter
+    - Authorised external vulnerability scanning of the appliance
+    - Reverse proxies or load balancers that log their own address as c-ip will hide the real client; log X-Forwarded-For instead
+level: high
