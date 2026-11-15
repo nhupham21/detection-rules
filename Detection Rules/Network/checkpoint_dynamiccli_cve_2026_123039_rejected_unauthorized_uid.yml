@@ -1,0 +1,29 @@
+title: Check Point Gaia DynamicCLI Rejected Unauthorized UID - CVE-2026-123039 Attempt
+id: 1df98bc8-0e1d-475a-b869-0913189587a5
+status: test
+description: |
+    Detects the message a patched dynamic_server writes to /var/log/dynamicCli.log when it refuses a
+    connection on /tmp/dynamic_socket from an untrusted uid. Per Check Point sk1000362, a non-zero uid
+    such as 99 (nobody) means something on the box tried to use the CVE-2026-123039 path after the fix,
+    which points to a foothold that patching did not remove.
+references:
+    - https://support.checkpoint.com/results/sk/sk1000362
+    - https://netsec101.com/?p=244
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.privilege-escalation
+    - attack.t1068
+    - cve.2026-123039
+    - detection.emerging-threats
+logsource:
+    product: checkpoint
+    service: dynamiccli
+    definition: 'Requirement: forward /var/log/dynamicCli.log from patched Gaia gateways, cluster members and management servers to the SIEM.'
+detection:
+    keywords:
+        - 'Rejected connection from unauthorized uid'
+    condition: keywords
+falsepositives:
+    - Legitimate local Check Point components running under a non-trusted uid after the hotfix (check the uid and the calling process before escalating)
+level: medium

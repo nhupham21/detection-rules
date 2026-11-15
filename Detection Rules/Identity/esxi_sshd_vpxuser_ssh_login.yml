@@ -1,0 +1,30 @@
+title: Successful SSH Login to VMware ESXi as vpxuser
+id: 3f27fc62-3ea2-4c99-911c-4386ebb234fc
+status: experimental
+description: |
+    Detects a successful SSH login to an ESXi host with the vpxuser account. In the Check Point gateway
+    intrusions described by Check Point Research, attackers moved from a compromised firewall to ESXi over
+    SSH as vpxuser and ran a wiper. vCenter manages hosts through this account over the management API,
+    so an interactive SSH session as vpxuser is unusual (inference, not stated by the source).
+references:
+    - https://research.checkpoint.com/2026/php2shell-exploitation-on-check-point-gateway/
+    - https://netsec101.com/?p=244
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.lateral-movement
+    - attack.t1021.004
+    - detection.emerging-threats
+logsource:
+    product: esxi
+    service: sshd
+    definition: 'Requirement: ESXi syslog forwarding (Syslog.global.logHost) including /var/log/auth.log; the ESXi SSH service is disabled by default.'
+detection:
+    keywords_accepted:
+        - 'Accepted '
+    keywords_user:
+        - ' for vpxuser from '
+    condition: keywords_accepted and keywords_user
+falsepositives:
+    - VMware support sessions or in-house scripts that SSH in as vpxuser (document and filter them by source address)
+level: high

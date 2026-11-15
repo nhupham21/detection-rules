@@ -22,6 +22,29 @@
         "updated":  "2026-11-16"
     },
     {
+        "id":  "3f27fc62-3ea2-4c99-911c-4386ebb234fc",
+        "title":  "Successful SSH Login to VMware ESXi as vpxuser",
+        "domain":  "Identity",
+        "path":  "Detection Rules/Identity/esxi_sshd_vpxuser_ssh_login.yml",
+        "logsource":  "esxi/sshd",
+        "attack":  [
+                       "T1021.004"
+                   ],
+        "tactics":  [
+                        "lateral-movement"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "Check Point Gaia PHP2Shell chain (CVE-2026-123039)",
+        "cves":  [
+                     "CVE-2026-123039",
+                     "CVE-2026-109618",
+                     "CVE-2026-109619"
+                 ],
+        "article":  "https://netsec101.com/?p=244",
+        "updated":  "2026-11-16"
+    },
+    {
         "id":  "e2c8278b-f88d-40c8-a9a4-3a339e3b0712",
         "title":  "Additional sshd Listener Started With Forwarding Options Or From A Shell",
         "domain":  "Linux",
@@ -40,6 +63,31 @@
                      "CVE-2026-123158"
                  ],
         "article":  "https://netsec101.com/?p=242",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "9a620f8b-8720-41bc-b54c-a0eada361382",
+        "title":  "Check Point Gaia TSGA, TSProxy or Portal Webshell Artifact Created",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/file_event_lnx_checkpoint_gaia_tsga_tsproxy_artifacts.yml",
+        "logsource":  "linux/file_event",
+        "attack":  [
+                       "T1505.003",
+                       "T1090"
+                   ],
+        "tactics":  [
+                        "persistence",
+                        "command-and-control"
+                    ],
+        "level":  "critical",
+        "status":  "test",
+        "case":  "Check Point Gaia PHP2Shell chain (CVE-2026-123039)",
+        "cves":  [
+                     "CVE-2026-123039",
+                     "CVE-2026-109618",
+                     "CVE-2026-109619"
+                 ],
+        "article":  "https://netsec101.com/?p=244",
         "updated":  "2026-11-16"
     },
     {
@@ -243,6 +291,77 @@
                      "CVE-2026-111560"
                  ],
         "article":  "https://netsec101.com/?p=241",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "1661f7ea-6cb2-4c65-bc8a-3d61ad47bc34",
+        "title":  "Check Point Gaia DynamicCLI Command Without Clish Wrapper - CVE-2026-123039",
+        "domain":  "Network",
+        "path":  "Detection Rules/Network/checkpoint_dynamiccli_cve_2026_123039_non_clish_command.yml",
+        "logsource":  "checkpoint/dynamiccli",
+        "attack":  [
+                       "T1068"
+                   ],
+        "tactics":  [
+                        "privilege-escalation"
+                    ],
+        "level":  "medium",
+        "status":  "test",
+        "case":  "Check Point Gaia PHP2Shell chain (CVE-2026-123039)",
+        "cves":  [
+                     "CVE-2026-123039",
+                     "CVE-2026-109618",
+                     "CVE-2026-109619"
+                 ],
+        "article":  "https://netsec101.com/?p=244",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "50564284-e728-4af4-940e-a38255c15ab2",
+        "title":  "Check Point Gaia DynamicCLI Exploitation-Style Command - CVE-2026-123039",
+        "domain":  "Network",
+        "path":  "Detection Rules/Network/checkpoint_dynamiccli_cve_2026_123039_exploitation_commands.yml",
+        "logsource":  "checkpoint/dynamiccli",
+        "attack":  [
+                       "T1068",
+                       "T1059.004"
+                   ],
+        "tactics":  [
+                        "privilege-escalation",
+                        "execution"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "Check Point Gaia PHP2Shell chain (CVE-2026-123039)",
+        "cves":  [
+                     "CVE-2026-123039",
+                     "CVE-2026-109618",
+                     "CVE-2026-109619"
+                 ],
+        "article":  "https://netsec101.com/?p=244",
+        "updated":  "2026-11-16"
+    },
+    {
+        "id":  "1df98bc8-0e1d-475a-b869-0913189587a5",
+        "title":  "Check Point Gaia DynamicCLI Rejected Unauthorized UID - CVE-2026-123039 Attempt",
+        "domain":  "Network",
+        "path":  "Detection Rules/Network/checkpoint_dynamiccli_cve_2026_123039_rejected_unauthorized_uid.yml",
+        "logsource":  "checkpoint/dynamiccli",
+        "attack":  [
+                       "T1068"
+                   ],
+        "tactics":  [
+                        "privilege-escalation"
+                    ],
+        "level":  "medium",
+        "status":  "test",
+        "case":  "Check Point Gaia PHP2Shell chain (CVE-2026-123039)",
+        "cves":  [
+                     "CVE-2026-123039",
+                     "CVE-2026-109618",
+                     "CVE-2026-109619"
+                 ],
+        "article":  "https://netsec101.com/?p=244",
         "updated":  "2026-11-16"
     },
     {

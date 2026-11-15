@@ -1,0 +1,41 @@
+title: Check Point Gaia TSGA, TSProxy or Portal Webshell Artifact Created
+id: 9a620f8b-8720-41bc-b54c-a0eada361382
+status: test
+description: |
+    Detects creation of file paths that Check Point Research attributes to the post-exploitation toolset
+    seen after PHP2Shell and CVE-2026-123039 on Check Point gateways: the TSGA backdoor and its log, the
+    webshell upload staging file, the TSProxy library, the persisted slot_CPconfigdaemon binary and zz*.tpl
+    webshells in the Mobile Access portal tree.
+references:
+    - https://research.checkpoint.com/2026/php2shell-exploitation-on-check-point-gateway/
+    - https://netsec101.com/?p=244
+author: netsec101.com
+date: 2026-11-15
+tags:
+    - attack.persistence
+    - attack.command-and-control
+    - attack.t1505.003
+    - attack.t1090
+    - cve.2026-123039
+    - detection.emerging-threats
+logsource:
+    product: linux
+    category: file_event
+detection:
+    selection_paths:
+        TargetFilename:
+            - '/tmp/CPconfigdaemon'
+            - '/tmp/.bd.log'
+            - '/tmp/.up.tpl'
+            - '/tmp/.p_sock'
+            - '/lib/libcpfwcommon.so'
+    selection_persistence:
+        TargetFilename|endswith: '/slot_CPconfigdaemon'
+    selection_webshell:
+        TargetFilename|startswith: '/opt/CPcvpn-'
+        TargetFilename|contains: '/zz'
+        TargetFilename|endswith: '.tpl'
+    condition: 1 of selection_*
+falsepositives:
+    - Unlikely. Compare any hit against a known-good gateway of the same version and Jumbo Hotfix take before rebuilding
+level: critical
