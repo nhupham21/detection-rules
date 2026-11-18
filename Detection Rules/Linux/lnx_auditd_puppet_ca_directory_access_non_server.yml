@@ -1,0 +1,33 @@
+title: Puppet CA Directory Read by Process Other Than Puppet Server JVM
+id: 55992bc7-a286-4ef1-83f1-27e4eb29a32a
+status: experimental
+description: |
+    Detects reads of the Puppet certificate authority directory (watched with the auditd key
+    puppet_ca_read) by any executable other than the Java process that runs Puppet Server. After
+    CVE-2026-115731 code execution, Neodyme read the CA private key to mint a server certificate.
+references:
+    - https://neodyme.io/en/blog/puppet_rce/
+    - https://github.com/OpenVoxProject/openvox/security/advisories/GHSA-ffr6-rwpm-p5wq
+    - https://netsec101.com/?p=330
+author: netsec101.com
+date: 2026-11-18
+tags:
+    - attack.credential-access
+    - attack.t1552.004
+    - cve.2026-115731
+    - detection.emerging-threats
+logsource:
+    product: linux
+    service: auditd
+detection:
+    selection:
+        type: 'SYSCALL'
+        key: 'puppet_ca_read'
+    filter_main_puppetserver_jvm:
+        exe|endswith: '/java'
+    condition: selection and not 1 of filter_main_*
+falsepositives:
+    - Administrators running puppetserver ca subcommands that work on CA files directly (setup, import, migrate)
+    - Backup, configuration management or file-integrity agents that read the CA directory
+    - Package upgrade scripts touching the CA directory
+level: medium

@@ -1,0 +1,30 @@
+title: Puppet CA Certificate Signing Request Submitted
+id: 6dcf4bf1-c989-46a8-9616-338c31e9358e
+status: experimental
+description: |
+    Surfaces every certificate signing request submitted to the Puppet CA API for review against
+    provisioning records. With permissive autosign, an attacker may enrol a fake node (possibly with
+    a lookalike name, CVE-2026-115732) to get the agent certificate CVE-2026-115731 needs.
+references:
+    - https://github.com/OpenVoxProject/trapperkeeper-authorization/security/advisories/GHSA-q4hm-33rc-572g
+    - https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2026-115731
+    - https://docs.puppet.com/puppet/5.2/http_api/http_certificate_request.md
+    - https://netsec101.com/?p=330
+author: netsec101.com
+date: 2026-11-18
+tags:
+    - attack.credential-access
+    - attack.t1649
+    - cve.2026-115731
+    - cve.2026-115732
+    - detection.threat-hunting
+logsource:
+    category: webserver
+detection:
+    selection:
+        cs-method: 'PUT'
+        cs-uri-stem|startswith: '/puppet-ca/v1/certificate_request/'
+    condition: selection
+falsepositives:
+    - Every legitimate node enrolment (new VMs, rebuilt hosts, autoscaling groups); join with provisioning or CMDB records before alerting
+level: low

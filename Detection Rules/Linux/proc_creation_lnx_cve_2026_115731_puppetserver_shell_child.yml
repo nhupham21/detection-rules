@@ -1,0 +1,50 @@
+title: Shell or Download Tool Spawned by Puppet Server JVM - Potential CVE-2026-115731 Exploitation
+id: 99b9b6b1-fa53-416b-918b-8a28b20f939f
+status: experimental
+description: |
+    Detects the Puppet Server (or OpenVox Server) Java process spawning a shell, interpreter,
+    download or network tool. CVE-2026-115731 lets any holder of an agent certificate run Ruby
+    inside the server, and launching a shell or tool from the server process is one likely follow-on step.
+references:
+    - https://github.com/OpenVoxProject/openvox/security/advisories/GHSA-ffr6-rwpm-p5wq
+    - https://neodyme.io/en/blog/puppet_rce/
+    - https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2026-115731
+    - https://netsec101.com/?p=330
+author: netsec101.com
+date: 2026-11-18
+tags:
+    - attack.execution
+    - attack.t1059.004
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-115731
+    - detection.emerging-threats
+logsource:
+    product: linux
+    category: process_creation
+detection:
+    selection_parent:
+        ParentImage|endswith: '/java'
+        ParentCommandLine|contains: 'puppetserver'
+    selection_child:
+        Image|endswith:
+            - '/sh'
+            - '/bash'
+            - '/dash'
+            - '/zsh'
+            - '/ksh'
+            - '/curl'
+            - '/wget'
+            - '/nc'
+            - '/ncat'
+            - '/socat'
+            - '/python'
+            - '/python3'
+            - '/perl'
+            - '/base64'
+    condition: all of selection_*
+falsepositives:
+    - Manifests that call the generate() function, which runs commands on the server during catalog compilation
+    - External node classifier (ENC) scripts, policy-based autosign executables and trusted fact scripts that are shell or Python based
+    - Custom server-side functions or report processors that shell out
+level: high

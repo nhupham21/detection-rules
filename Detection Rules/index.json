@@ -222,6 +222,52 @@
         "updated":  "2026-11-16"
     },
     {
+        "id":  "55992bc7-a286-4ef1-83f1-27e4eb29a32a",
+        "title":  "Puppet CA Directory Read by Process Other Than Puppet Server JVM",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/lnx_auditd_puppet_ca_directory_access_non_server.yml",
+        "logsource":  "linux/auditd",
+        "attack":  [
+                       "T1552.004"
+                   ],
+        "tactics":  [
+                        "credential-access"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "Puppet Server report deserialization RCE (CVE-2026-115731)",
+        "cves":  [
+                     "CVE-2026-115731",
+                     "CVE-2026-115732"
+                 ],
+        "article":  "https://netsec101.com/?p=330",
+        "updated":  "2026-11-18"
+    },
+    {
+        "id":  "99b9b6b1-fa53-416b-918b-8a28b20f939f",
+        "title":  "Shell or Download Tool Spawned by Puppet Server JVM - Potential CVE-2026-115731 Exploitation",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/proc_creation_lnx_cve_2026_115731_puppetserver_shell_child.yml",
+        "logsource":  "linux/process_creation",
+        "attack":  [
+                       "T1059.004",
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "execution",
+                        "initial-access"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "Puppet Server report deserialization RCE (CVE-2026-115731)",
+        "cves":  [
+                     "CVE-2026-115731",
+                     "CVE-2026-115732"
+                 ],
+        "article":  "https://netsec101.com/?p=330",
+        "updated":  "2026-11-18"
+    },
+    {
         "id":  "8b70f30f-bb47-49f3-b398-4ff7379f0ca2",
         "title":  "Suspicious Child Of Barracuda Timezone Helper - Potential CVE-2026-111560 Exploitation",
         "domain":  "Linux",
@@ -523,6 +569,28 @@
                  ],
         "article":  "https://netsec101.com/?p=240",
         "updated":  "2026-11-16"
+    },
+    {
+        "id":  "6dcf4bf1-c989-46a8-9616-338c31e9358e",
+        "title":  "Puppet CA Certificate Signing Request Submitted",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_puppetserver_ca_certificate_request_submission.yml",
+        "logsource":  "webserver",
+        "attack":  [
+                       "T1649"
+                   ],
+        "tactics":  [
+                        "credential-access"
+                    ],
+        "level":  "low",
+        "status":  "experimental",
+        "case":  "Puppet Server report deserialization RCE (CVE-2026-115731)",
+        "cves":  [
+                     "CVE-2026-115731",
+                     "CVE-2026-115732"
+                 ],
+        "article":  "https://netsec101.com/?p=330",
+        "updated":  "2026-11-18"
     },
     {
         "id":  "ec7bc0ea-16eb-4a06-9571-437e3d2859ec",
