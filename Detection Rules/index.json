@@ -607,5 +607,114 @@
                  ],
         "article":  "https://netsec101.com/?p=243",
         "updated":  "2026-11-16"
+    },
+    {
+        "id":  "ffd31285-6675-4535-90f7-af9404d20863",
+        "title":  "Msiexec Quiet Administrative Install Into User LocalAppData",
+        "domain":  "Windows",
+        "path":  "Detection Rules/Windows/proc_creation_win_msiexec_admin_image_localappdata_quiet.yml",
+        "logsource":  "windows/process_creation",
+        "attack":  [
+                       "T1218.007"
+                   ],
+        "tactics":  [
+                        "defense-evasion"
+                    ],
+        "level":  "medium",
+        "status":  "test",
+        "case":  "ScreenConnect host client exploitation campaign (CVE-2026-84869)",
+        "cves":  [
+                     "CVE-2026-84869"
+                 ],
+        "article":  "https://netsec101.com/?p=328",
+        "updated":  "2026-11-18"
+    },
+    {
+        "id":  "6ebf86c0-7d62-47c8-8bbd-da5fd10a5487",
+        "title":  "Rogue ScreenConnect Client Disguised as Windows Update - Huntress IOCs",
+        "domain":  "Windows",
+        "path":  "Detection Rules/Windows/proc_creation_win_screenconnect_rogue_windowsupdate_client.yml",
+        "logsource":  "windows/process_creation",
+        "attack":  [
+                       "T1219.002",
+                       "T1036.005"
+                   ],
+        "tactics":  [
+                        "command-and-control",
+                        "defense-evasion"
+                    ],
+        "level":  "critical",
+        "status":  "test",
+        "case":  "ScreenConnect host client exploitation campaign (CVE-2026-84869)",
+        "cves":  [
+                     "CVE-2026-84869"
+                 ],
+        "article":  "https://netsec101.com/?p=328",
+        "updated":  "2026-11-18"
+    },
+    {
+        "id":  "b26a2270-b36d-4b9c-b7b4-8a85d52294a0",
+        "title":  "Runas Launch With Basic User Trust Level",
+        "domain":  "Windows",
+        "path":  "Detection Rules/Windows/proc_creation_win_runas_trustlevel_basic_user.yml",
+        "logsource":  "windows/process_creation",
+        "attack":  [
+                       "T1134.002"
+                   ],
+        "tactics":  [
+                        "defense-evasion",
+                        "privilege-escalation"
+                    ],
+        "level":  "medium",
+        "status":  "test",
+        "case":  "ScreenConnect host client exploitation campaign (CVE-2026-84869)",
+        "cves":  [
+                     "CVE-2026-84869"
+                 ],
+        "article":  "https://netsec101.com/?p=328",
+        "updated":  "2026-11-18"
+    },
+    {
+        "id":  "e67003ab-31ae-470e-a18b-b60f16521092",
+        "title":  "ScreenConnect Host Client Runs Guest-Pushed File - CVE-2026-84869",
+        "domain":  "Windows",
+        "path":  "Detection Rules/Windows/proc_creation_win_cve_2026_84869_screenconnect_host_runfile_child.yml",
+        "logsource":  "windows/process_creation",
+        "attack":  [
+                       "T1203",
+                       "T1059.003"
+                   ],
+        "tactics":  [
+                        "execution"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "ScreenConnect host client exploitation campaign (CVE-2026-84869)",
+        "cves":  [
+                     "CVE-2026-84869"
+                 ],
+        "article":  "https://netsec101.com/?p=328",
+        "updated":  "2026-11-18"
+    },
+    {
+        "id":  "2e3165de-d43e-449e-af8c-7488fe297e79",
+        "title":  "ScreenConnect Host Client Writes to User Startup Folder - CVE-2026-84869",
+        "domain":  "Windows",
+        "path":  "Detection Rules/Windows/file_event_win_cve_2026_84869_screenconnect_host_startup_write.yml",
+        "logsource":  "windows/file_event",
+        "attack":  [
+                       "T1547.001"
+                   ],
+        "tactics":  [
+                        "persistence"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "ScreenConnect host client exploitation campaign (CVE-2026-84869)",
+        "cves":  [
+                     "CVE-2026-84869"
+                 ],
+        "article":  "https://netsec101.com/?p=328",
+        "updated":  "2026-11-18"
     }
 ]

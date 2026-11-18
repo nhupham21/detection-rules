@@ -1,0 +1,33 @@
+title: Rogue ScreenConnect Client Disguised as Windows Update - Huntress IOCs
+id: 6ebf86c0-7d62-47c8-8bbd-da5fd10a5487
+status: test
+description: |
+    Detects the rebranded ScreenConnect client Huntress found after the November 12, 2026 technician
+    compromise, by file name, by its staging folder under LocalAppData (wclient_<id>) or by the
+    published SHA-256. The client connected to an attacker-controlled relay.
+references:
+    - https://www.huntress.com/blog/cve-2026-84869-screenconnect-technician-exploitation
+    - https://netsec101.com/?p=328
+author: netsec101.com
+date: 2026-11-18
+tags:
+    - attack.command-and-control
+    - attack.t1219.002
+    - attack.defense-evasion
+    - attack.t1036.005
+    - detection.emerging-threats
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_name:
+        Image|endswith: '\WindowsUpdate.WindowsClient.exe'
+    selection_path:
+        Image|contains: '\AppData\Local\wclient_'
+        Image|endswith: '.WindowsClient.exe'
+    selection_hash:
+        Hashes|contains: 'SHA256=f8871b1561d5c77c297378a7f49c84de52a01ff297395544f0e95d13ef972841'
+    condition: 1 of selection_*
+falsepositives:
+    - None expected; Microsoft does not ship a binary with this name
+level: critical

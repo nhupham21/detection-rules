@@ -1,0 +1,37 @@
+title: Msiexec Quiet Administrative Install Into User LocalAppData
+id: ffd31285-6675-4535-90f7-af9404d20863
+status: test
+description: |
+    Detects msiexec unpacking a package as an administrative image ("/a") into the user's LocalAppData
+    folder without UI. Huntress saw the ScreenConnect technician compromise use this to stage a rogue,
+    rebranded ScreenConnect client.
+references:
+    - https://www.huntress.com/blog/cve-2026-84869-screenconnect-technician-exploitation
+    - https://netsec101.com/?p=328
+author: netsec101.com
+date: 2026-11-18
+tags:
+    - attack.defense-evasion
+    - attack.t1218.007
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith: '\msiexec.exe'
+        - OriginalFileName: 'msiexec.exe'
+    selection_admin:
+        CommandLine|contains|windash: ' -a '
+    selection_target:
+        CommandLine|contains: 'TARGETDIR='
+    selection_localappdata:
+        CommandLine|contains:
+            - '\AppData\Local\'
+            - '%LOCALAPPDATA%'
+    selection_quiet:
+        CommandLine|contains|windash: ' -qn'
+    condition: all of selection_*
+falsepositives:
+    - Developers or packagers extracting MSI contents into their profile to inspect them
+    - Per-user portable deployments that unpack MSIs rather than install them
+level: medium

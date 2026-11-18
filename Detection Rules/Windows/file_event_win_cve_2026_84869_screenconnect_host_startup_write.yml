@@ -1,0 +1,31 @@
+title: ScreenConnect Host Client Writes to User Startup Folder - CVE-2026-84869
+id: 2e3165de-d43e-449e-af8c-7488fe297e79
+status: experimental
+description: |
+    Detects the ScreenConnect host client creating a file in a Startup folder. Huntress saw guests push
+    Sync.bat with "../" path traversal aimed at technicians' Startup folders; that the file lands and
+    that the host client process is the writer are inferences from how transfers work.
+references:
+    - https://www.huntress.com/blog/cve-2026-84869-screenconnect-technician-exploitation
+    - https://netsec101.com/?p=328
+author: netsec101.com
+date: 2026-11-18
+tags:
+    - attack.persistence
+    - attack.t1547.001
+    - cve.2026-84869
+    - detection.emerging-threats
+logsource:
+    category: file_event
+    product: windows
+detection:
+    selection_image:
+        Image|endswith: '.WindowsClient.exe'
+    selection_target:
+        TargetFilename|contains:
+            - '\Start Menu\Programs\Startup\'
+            - '\STARTM~1\Programs\Startup\'
+    condition: all of selection_*
+falsepositives:
+    - Unlikely; a remote support client has no normal reason to write into a Startup folder
+level: high

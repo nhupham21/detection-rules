@@ -1,0 +1,40 @@
+title: ScreenConnect Host Client Runs Guest-Pushed File - CVE-2026-84869
+id: e67003ab-31ae-470e-a18b-b60f16521092
+status: test
+description: |
+    Detects the ScreenConnect host client on a technician workstation starting a shell, script host or
+    Notepad with "RunFile" in its own command line. Huntress observed this when unpatched host clients
+    ran files pushed by a malicious guest session (CVE-2026-84869) without the technician confirming.
+references:
+    - https://www.huntress.com/blog/cve-2026-84869-screenconnect-technician-exploitation
+    - https://connectwise.com/company/trust/security-bulletins/2026-09-08-screenconnect-bulletin
+    - https://netsec101.com/?p=328
+author: netsec101.com
+date: 2026-11-18
+tags:
+    - attack.execution
+    - attack.t1203
+    - attack.t1059.003
+    - cve.2026-84869
+    - detection.emerging-threats
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_parent:
+        # ScreenConnect.WindowsClient.exe or a branded client that keeps the .WindowsClient.exe suffix
+        ParentImage|endswith: '.WindowsClient.exe'
+        ParentCommandLine|contains: 'RunFile'
+    selection_child_shell:
+        Image|endswith:
+            - '\cmd.exe'
+            - '\powershell.exe'
+            - '\wscript.exe'
+    selection_child_editor:
+        # notepad*.exe, which Huntress lists as a possible child
+        Image|contains: '\notepad'
+    condition: selection_parent and 1 of selection_child_*
+falsepositives:
+    - A technician deliberately running a file a customer sent during a session (on 26.6.5+ this needs host confirmation)
+    - Internal IT staff using the host client to run their own scripts on their own machine
+level: high

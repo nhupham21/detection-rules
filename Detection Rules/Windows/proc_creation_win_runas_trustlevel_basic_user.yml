@@ -1,0 +1,29 @@
+title: Runas Launch With Basic User Trust Level
+id: b26a2270-b36d-4b9c-b7b4-8a85d52294a0
+status: test
+description: |
+    Detects runas.exe started with "/trustlevel:0x20000" (Basic User). In the ScreenConnect technician
+    compromise reported by Huntress, the attacker script enabled the Secondary Logon service and used
+    this switch to launch the rogue ScreenConnect client.
+references:
+    - https://www.huntress.com/blog/cve-2026-84869-screenconnect-technician-exploitation
+    - https://netsec101.com/?p=328
+author: netsec101.com
+date: 2026-11-18
+tags:
+    - attack.defense-evasion
+    - attack.privilege-escalation
+    - attack.t1134.002
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_img:
+        - Image|endswith: '\runas.exe'
+        - OriginalFileName: 'RUNAS.EXE'
+    selection_cli:
+        CommandLine|contains|windash: '-trustlevel:0x20000'
+    condition: all of selection_*
+falsepositives:
+    - Admin scripts or application shortcuts that deliberately start programs with reduced rights
+level: medium
