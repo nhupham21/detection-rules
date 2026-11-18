@@ -1,0 +1,35 @@
+title: Java4Shell Trigger Shape - Basic Authorization With Impossible Base64 Padding
+id: 9dc30520-911b-44ef-a532-16ff2ef66e47
+name: java4shell_basic_auth_impossible_padding
+status: test
+description: |
+    Detects HTTP Basic Authorization values of 32 or more Base64 characters that end in '=' padding but whose
+    total length is not a multiple of four, which no valid encoder produces. This is the input shape that
+    triggers the CVE-2026-114938 (Java4Shell) heap overflow in the HotSpot AVX-512 Base64 decode intrinsic.
+references:
+    - https://calif.io/java4shell/
+    - https://equixly.com/blog/2026/11/17/cve-2026-114938-pre-auth-heap-overflow-in-java-17-21-and-25/
+    - https://www.vulncheck.com/blog/java4shell
+    - https://netsec101.com/?p=326
+author: netsec101.com
+date: 2026-11-18
+tags:
+    - attack.initial-access
+    - attack.impact
+    - attack.t1190
+    - attack.t1499.004
+    - cve.2026-114938
+    - detection.emerging-threats
+logsource:
+    category: webserver
+    definition: 'Requirement: a WAF, reverse proxy or API gateway that can inspect the Authorization request header, mapped to the field cs-authorization. Access logs do not record this header by default, and storing Basic credentials in a SIEM is a risk in itself: prefer running this logic inside the WAF and logging only the verdict.'
+detection:
+    selection_impossible_padding:
+        cs-authorization|re: '^[Bb][Aa][Ss][Ii][Cc] +(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]?={1,2}|[A-Za-z0-9+/]{2}=|[A-Za-z0-9+/]{3}==)$'
+    selection_min_length:
+        cs-authorization|re: '^[Bb][Aa][Ss][Ii][Cc] +[A-Za-z0-9+/]{32}'
+    condition: all of selection_*
+falsepositives:
+    - Vulnerability scanners and fuzzers that send malformed Basic credentials
+    - Broken clients that truncate or hand-build the header (rare; baseline first)
+level: high

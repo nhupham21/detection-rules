@@ -1,0 +1,35 @@
+title: Java4Shell Trigger Shape - JWT Bearer Token Containing Base64 Padding
+id: a176c9f0-eb2f-4c07-a9c0-aa016d23a82e
+name: java4shell_jwt_bearer_with_padding
+status: experimental
+description: |
+    Detects Bearer tokens shaped like a JWT (three dot-separated base64url segments starting with eyJ) that
+    contain an '=' character. JWT segments are encoded without padding, and the CVE-2026-114938 (Java4Shell)
+    trigger needs a padding character, so padding inside a JWT may be an attempt to reach the flawed decoder.
+references:
+    - https://equixly.com/blog/2026/11/17/cve-2026-114938-pre-auth-heap-overflow-in-java-17-21-and-25/
+    - https://www.herodevs.com/blog-posts/java4shell-cve-2026-114938-spring-boot-tomcat-jetty
+    - https://calif.io/java4shell/
+    - https://netsec101.com/?p=326
+author: netsec101.com
+date: 2026-11-18
+tags:
+    - attack.initial-access
+    - attack.impact
+    - attack.t1190
+    - attack.t1499.004
+    - cve.2026-114938
+    - detection.emerging-threats
+logsource:
+    category: webserver
+    definition: 'Requirement: a WAF, reverse proxy or API gateway that can inspect the Authorization request header, mapped to the field cs-authorization. Not logged by default; tokens in logs are secrets, so prefer evaluating this in the WAF.'
+detection:
+    selection_jwt_shape:
+        cs-authorization|re: '^[Bb][Ee][Aa][Rr][Ee][Rr] +eyJ[A-Za-z0-9_=-]+\.[A-Za-z0-9_=-]+\.[A-Za-z0-9_=-]*$'
+    selection_padding:
+        cs-authorization|contains: '='
+    condition: all of selection_*
+falsepositives:
+    - Non-compliant token issuers or clients that pad base64url segments (verify against your identity provider)
+    - Security testing and fuzzing of API authentication
+level: medium

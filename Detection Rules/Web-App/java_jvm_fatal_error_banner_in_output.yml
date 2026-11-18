@@ -1,0 +1,32 @@
+title: JVM Fatal Error Banner In Application Output
+id: 988ead27-6a7c-477b-9c70-4d77dcdd6b4a
+name: jvm_fatal_error_banner_in_output
+status: test
+description: |
+    Detects the HotSpot fatal error header that the JVM prints to standard output when it crashes. It catches
+    crashes where the hs_err_pid file is lost, such as containers that restart, and is a signal for failed
+    CVE-2026-114938 (Java4Shell) exploitation or trigger-based denial of service.
+references:
+    - https://docs.oracle.com/en/java/javase/21/troubleshoot/fatal-error-log.html
+    - https://calif.io/java4shell/
+    - https://www.vulncheck.com/blog/java4shell
+    - https://netsec101.com/?p=326
+author: netsec101.com
+date: 2026-11-18
+tags:
+    - attack.impact
+    - attack.initial-access
+    - attack.t1499.004
+    - attack.t1190
+    - cve.2026-114938
+logsource:
+    product: jvm
+    category: application
+    definition: 'Requirement: the stdout/stderr of Java services collected into the SIEM (systemd journal, container runtime logs, Kubernetes pod logs or the application console log such as catalina.out).'
+detection:
+    keywords:
+        - 'A fatal error has been detected by the Java Runtime Environment'
+    condition: keywords
+falsepositives:
+    - Ordinary JVM crashes unrelated to Java4Shell (native libraries, JDK bugs, hardware faults)
+level: medium

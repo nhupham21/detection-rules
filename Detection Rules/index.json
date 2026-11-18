@@ -1,5 +1,28 @@
 [
     {
+        "id":  "6d8a889e-1a29-4c85-997f-2504dec3eed4",
+        "title":  "JVM Fatal Error Log hs_err_pid Created",
+        "domain":  "Cross-Platform",
+        "path":  "Detection Rules/Cross-Platform/file_event_java_hs_err_pid_crash_log_created.yml",
+        "logsource":  "file_event",
+        "attack":  [
+                       "T1499.004",
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "impact",
+                        "initial-access"
+                    ],
+        "level":  "medium",
+        "status":  "test",
+        "case":  "Java4Shell, OpenJDK AVX-512 Base64 intrinsic heap overflow (CVE-2026-114938)",
+        "cves":  [
+                     "CVE-2026-114938"
+                 ],
+        "article":  "https://netsec101.com/?p=326",
+        "updated":  "2026-11-18"
+    },
+    {
         "id":  "df89c9e8-2820-452e-a14a-2f3431ae0672",
         "title":  "Barracuda ESG Failed Password Change Audit Event - Potential CVE-2026-116606 Exploitation",
         "domain":  "Email",
@@ -410,6 +433,75 @@
                  ],
         "article":  "https://netsec101.com/?p=241",
         "updated":  "2026-11-16"
+    },
+    {
+        "id":  "9dc30520-911b-44ef-a532-16ff2ef66e47",
+        "title":  "Java4Shell Trigger Shape - Basic Authorization With Impossible Base64 Padding",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_cve_2026_114938_java4shell_basic_auth_impossible_padding.yml",
+        "logsource":  "webserver",
+        "attack":  [
+                       "T1190",
+                       "T1499.004"
+                   ],
+        "tactics":  [
+                        "initial-access",
+                        "impact"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "Java4Shell, OpenJDK AVX-512 Base64 intrinsic heap overflow (CVE-2026-114938)",
+        "cves":  [
+                     "CVE-2026-114938"
+                 ],
+        "article":  "https://netsec101.com/?p=326",
+        "updated":  "2026-11-18"
+    },
+    {
+        "id":  "a176c9f0-eb2f-4c07-a9c0-aa016d23a82e",
+        "title":  "Java4Shell Trigger Shape - JWT Bearer Token Containing Base64 Padding",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_cve_2026_114938_java4shell_jwt_bearer_with_padding.yml",
+        "logsource":  "webserver",
+        "attack":  [
+                       "T1190",
+                       "T1499.004"
+                   ],
+        "tactics":  [
+                        "initial-access",
+                        "impact"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "Java4Shell, OpenJDK AVX-512 Base64 intrinsic heap overflow (CVE-2026-114938)",
+        "cves":  [
+                     "CVE-2026-114938"
+                 ],
+        "article":  "https://netsec101.com/?p=326",
+        "updated":  "2026-11-18"
+    },
+    {
+        "id":  "988ead27-6a7c-477b-9c70-4d77dcdd6b4a",
+        "title":  "JVM Fatal Error Banner In Application Output",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/java_jvm_fatal_error_banner_in_output.yml",
+        "logsource":  "jvm/application",
+        "attack":  [
+                       "T1499.004",
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "impact",
+                        "initial-access"
+                    ],
+        "level":  "medium",
+        "status":  "test",
+        "case":  "Java4Shell, OpenJDK AVX-512 Base64 intrinsic heap overflow (CVE-2026-114938)",
+        "cves":  [
+                     "CVE-2026-114938"
+                 ],
+        "article":  "https://netsec101.com/?p=326",
+        "updated":  "2026-11-18"
     },
     {
         "id":  "cd9b774f-9fdd-4533-8134-4d7d7ee541f5",
