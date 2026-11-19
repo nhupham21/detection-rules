@@ -1,0 +1,35 @@
+title: Nginx Worker Process Terminated by Signal - Potential Memory Corruption Exploitation
+id: 917e45ec-a423-4939-9315-bd0f1d183ea1
+status: experimental
+description: |
+    Detects nginx error log lines where the master reports that a worker process exited on signal 11 (SIGSEGV)
+    or signal 6 (SIGABRT). Failed or crash-only exploitation of nginx memory corruption bugs such as
+    CVE-2026-123007 kills the worker, and the master logs the exit at alert level with the default config.
+references:
+    - https://nginx.org/en/CHANGES
+    - https://xint.io/blog/nginx2root-remote-code-execution
+    - https://www.wiz.io/blog/nginx-http2-rce-vulnerabilities
+    - https://github.com/SigmaHQ/sigma/blob/master/rules/web/product/nginx/web_nginx_core_dump.yml
+author: netsec101.com
+date: 2026-11-19
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - attack.impact
+    - attack.t1499.004
+    - cve.2026-123007
+    - detection.emerging-threats
+logsource:
+    service: nginx
+detection:
+    keywords_process:
+        - 'worker process'
+    keywords_signal:
+        - 'exited on signal 11'
+        - 'exited on signal 6'
+    condition: keywords_process and keywords_signal
+falsepositives:
+    - Crashing third-party or dynamic modules (Lua, njs, vendor modules), usually tied to one URL or upstream rather than one client
+    - Hardware or memory faults on the host
+    - The SigmaHQ Nginx Core Dump rule also fires on signal 6 lines with a core dump, so expect duplicate alerts if both are deployed
+level: medium

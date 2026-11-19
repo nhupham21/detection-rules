@@ -1,0 +1,39 @@
+title: Long-Lived or Very Large Connection to Web Ports 443/8443 - Nginx HTTP/2 Hunting
+id: 185aa0a0-dcd3-4a2e-843f-a167baacc63c
+status: experimental
+description: |
+    Hunts for single connections to web ports 443/8443 where the originator sends at least 10 GiB, or stays
+    connected 30 minutes or more while sending at least 1 GiB. The rule does not check for TLS or HTTP/2.
+    Rapid7's public PoC for CVE-2026-123007 needs about 128 GB of traffic on one connection. Thresholds are an
+    inference from public research, not vendor values.
+references:
+    - https://www.rapid7.com/blog/post/ve-cve-2026-123007-critical-nginx-http-2-integer-underflow-leads-to-rce-fixed/
+    - https://xint.io/blog/nginx2root-remote-code-execution
+    - https://www.wiz.io/blog/nginx-http2-rce-vulnerabilities
+author: netsec101.com
+date: 2026-11-19
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-123007
+    - detection.threat-hunting
+logsource:
+    product: zeek
+    service: conn
+detection:
+    selection_port:
+        # adjust to the ports your nginx edges listen on
+        id.resp_p:
+            - 443
+            - 8443
+    selection_volume:
+        orig_bytes|gte: 10737418240
+    selection_long_upload:
+        duration|gte: 1800
+        orig_bytes|gte: 1073741824
+    condition: selection_port and (selection_volume or selection_long_upload)
+falsepositives:
+    - Large legitimate uploads (backups, media, object storage, artifact registries) through the same edge
+    - Long-lived gRPC or WebSocket streams with heavy client-to-server traffic
+    - Internal load-test and benchmarking tools
+level: low

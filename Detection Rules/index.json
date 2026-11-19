@@ -158,6 +158,29 @@
         "updated":  "2026-11-16"
     },
     {
+        "id":  "abbc6c67-d2df-4432-9df2-5d8104ea2480",
+        "title":  "Nginx Process Spawning a Child Process - Potential Worker Compromise",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/proc_creation_lnx_nginx_worker_child_process.yml",
+        "logsource":  "linux/process_creation",
+        "attack":  [
+                       "T1190",
+                       "T1059.004"
+                   ],
+        "tactics":  [
+                        "initial-access",
+                        "execution"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "nginx HTTP/2 flow-control underflow (CVE-2026-123007)",
+        "cves":  [
+                     "CVE-2026-123007"
+                 ],
+        "article":  null,
+        "updated":  "2026-11-19"
+    },
+    {
         "id":  "bd55c2aa-598d-4d2d-9d73-0bab7c3f55f8",
         "title":  "Non-Interactive Doas Execution On Alpine Host",
         "domain":  "Linux",
@@ -434,6 +457,27 @@
         "updated":  "2026-11-16"
     },
     {
+        "id":  "185aa0a0-dcd3-4a2e-843f-a167baacc63c",
+        "title":  "Long-Lived or Very Large Connection to Web Ports 443/8443 - Nginx HTTP/2 Hunting",
+        "domain":  "Network",
+        "path":  "Detection Rules/Network/zeek_conn_tls_long_lived_high_volume_inbound.yml",
+        "logsource":  "zeek/conn",
+        "attack":  [
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "initial-access"
+                    ],
+        "level":  "low",
+        "status":  "experimental",
+        "case":  "nginx HTTP/2 flow-control underflow (CVE-2026-123007)",
+        "cves":  [
+                     "CVE-2026-123007"
+                 ],
+        "article":  null,
+        "updated":  "2026-11-19"
+    },
+    {
         "id":  "5d5efa38-db95-49a5-a684-d8a9dc69827a",
         "title":  "Traffic With 4EverAble2Shell Mining Campaign Infrastructure",
         "domain":  "Network",
@@ -569,6 +613,50 @@
                  ],
         "article":  "https://netsec101.com/?p=240",
         "updated":  "2026-11-16"
+    },
+    {
+        "id":  "b5f4e4af-57d6-4674-8b1d-da83053b8c89",
+        "title":  "Nginx Version Vulnerable to CVE-2026-123007 Seen in Logs - Inventory Hunt",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_nginx_vulnerable_version_cve_2026_123007.yml",
+        "logsource":  "nginx",
+        "attack":  [
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "initial-access"
+                    ],
+        "level":  "low",
+        "status":  "experimental",
+        "case":  "nginx HTTP/2 flow-control underflow (CVE-2026-123007)",
+        "cves":  [
+                     "CVE-2026-123007"
+                 ],
+        "article":  null,
+        "updated":  "2026-11-19"
+    },
+    {
+        "id":  "917e45ec-a423-4939-9315-bd0f1d183ea1",
+        "title":  "Nginx Worker Process Terminated by Signal - Potential Memory Corruption Exploitation",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_nginx_worker_segfault_error_log.yml",
+        "logsource":  "nginx",
+        "attack":  [
+                       "T1190",
+                       "T1499.004"
+                   ],
+        "tactics":  [
+                        "initial-access",
+                        "impact"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "nginx HTTP/2 flow-control underflow (CVE-2026-123007)",
+        "cves":  [
+                     "CVE-2026-123007"
+                 ],
+        "article":  null,
+        "updated":  "2026-11-19"
     },
     {
         "id":  "6dcf4bf1-c989-46a8-9616-338c31e9358e",

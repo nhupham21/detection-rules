@@ -1,0 +1,32 @@
+title: Nginx Version Vulnerable to CVE-2026-123007 Seen in Logs - Inventory Hunt
+id: b5f4e4af-57d6-4674-8b1d-da83053b8c89
+status: experimental
+description: |
+    Hunts for nginx version strings inside the affected range for CVE-2026-123007 (1.9.5 to 1.31.8, except
+    1.30.7 and later on the stable branch). nginx writes its version to the error log at notice level on
+    startup, and with the default server_tokens setting the same string appears in Server headers captured
+    by scanners or proxies. A match means
+    the version is in range, not that HTTP/2 is enabled or that the distro has not backported the fix.
+references:
+    - https://nginx.org/en/security_advisories.html
+    - https://cveawg.mitre.org/api/cve/CVE-2026-123007
+    - https://xint.io/blog/nginx2root-remote-code-execution
+    - https://nginx.org/en/docs/http/ngx_http_core_module.html#server_tokens
+author: netsec101.com
+date: 2026-11-19
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-123007
+    - detection.threat-hunting
+logsource:
+    service: nginx
+detection:
+    selection:
+        '|re': 'nginx/1\.(9\.([5-9]|1[0-5])|(1[0-9]|2[0-9])\.[0-9]+|30\.[0-6]|31\.[0-8])([^0-9]|$)'
+    condition: selection
+falsepositives:
+    - Distro packages (Ubuntu, Debian, RHEL) that backport the fix but keep the upstream version number
+    - Builds with HTTP/2 disabled or not compiled in (check nginx -V and nginx -T)
+    - Not a false positive but a blind spot - NGINX Plus and OpenResty builds are affected but are not reliably matched by this open-source version pattern; check them by product version
+level: low
