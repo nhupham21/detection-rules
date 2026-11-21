@@ -1,0 +1,51 @@
+title: CDI DataVolume With checkStaticVolume Cross-Namespace Clone Created By KubeVirt Controller
+id: 00777947-1699-457c-8de4-125b3ee2460d
+status: test
+description: |
+    Detects the KubeVirt virt-controller service account creating a CDI DataVolume that carries the
+    cdi.kubevirt.io/storage.checkStaticVolume annotation and clones from another namespace. In
+    CVE-2026-133879 this is the confused-deputy step: the controller creates the clone under its own
+    identity after the service-account clone check was waived. Needs audit level Request or higher for datavolumes.
+references:
+    - https://access.redhat.com/security/cve/CVE-2026-133879
+    - https://bugzilla.redhat.com/show_bug.cgi?id=2578653
+    - https://github.com/kubevirt/containerized-data-importer/pull/4346
+    - https://github.com/kubevirt/kubevirt/blob/main/pkg/virt-operator/resource/generate/components/serviceaccountnames.go
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.privilege-escalation
+    - attack.t1068
+    - attack.collection
+    - attack.t1530
+    - cve.2026-133879
+    - detection.emerging-threats
+logsource:
+    category: application
+    product: kubernetes
+    service: audit
+detection:
+    selection_dv_create:
+        objectRef.apiGroup: 'cdi.kubevirt.io'
+        objectRef.resource: 'datavolumes'
+        verb: 'create'
+    selection_controller:
+        user.username|startswith: 'system:serviceaccount:'
+        user.username|endswith: ':kubevirt-controller'
+    selection_annotation:
+        requestObject.metadata.annotations.cdi.kubevirt.io/storage.checkStaticVolume|exists: true
+    selection_source_namespace:
+        - requestObject.spec.source.pvc.namespace|exists: true
+        - requestObject.spec.source.snapshot.namespace|exists: true
+        - requestObject.spec.sourceRef.namespace|exists: true
+    filter_main_same_namespace_pvc:
+        requestObject.spec.source.pvc.namespace|fieldref: objectRef.namespace
+    filter_main_same_namespace_snapshot:
+        requestObject.spec.source.snapshot.namespace|fieldref: objectRef.namespace
+    filter_main_same_namespace_sourceref:
+        requestObject.spec.sourceRef.namespace|fieldref: objectRef.namespace
+    condition: all of selection_* and not 1 of filter_main_*
+falsepositives:
+    - VMs whose service account was legitimately granted datavolumes/source in the source namespace and that also set the annotation; verify the RoleBinding in the source namespace
+    - Metro DR restores where the VM template legitimately references a source namespace with this annotation; confirm with the DR owners and exclude by VM namespace
+level: high

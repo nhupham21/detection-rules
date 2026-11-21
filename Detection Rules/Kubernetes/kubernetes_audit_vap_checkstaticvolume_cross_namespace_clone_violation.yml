@@ -1,0 +1,31 @@
+title: ValidatingAdmissionPolicy Violation For checkStaticVolume Cross-Namespace Clone
+id: fff88e08-7325-4c32-9438-c6b7636cef18
+status: experimental
+description: |
+    Detects audit events where the example ValidatingAdmissionPolicy deny-checkstaticvolume-cross-ns-clone
+    (published in the netsec101 analysis of CVE-2026-133879) recorded a validation failure, meaning someone
+    submitted a VM whose DataVolumeTemplate combines the checkStaticVolume annotation with a foreign clone
+    source. Works at audit level Metadata, but only if the policy binding includes the Audit action.
+references:
+    - https://access.redhat.com/security/cve/CVE-2026-133879
+    - https://kubernetes.io/docs/reference/labels-annotations-taints/audit-annotations/
+    - https://kubernetes.io/docs/reference/access-authn-authz/validating-admission-policy/
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.privilege-escalation
+    - attack.t1068
+    - cve.2026-133879
+    - detection.emerging-threats
+logsource:
+    category: application
+    product: kubernetes
+    service: audit
+detection:
+    selection:
+        annotations.validation.policy.admission.k8s.io/validation_failure|contains: 'deny-checkstaticvolume-cross-ns-clone'
+    condition: selection
+falsepositives:
+    - DR or platform automation that sets the annotation with a foreign source on purpose; exempt it in the policy binding rather than in this rule
+    - Renamed policy; update the string if you deploy the policy under another name
+level: high

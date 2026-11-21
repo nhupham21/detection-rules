@@ -1,0 +1,45 @@
+title: CDI checkStaticVolume Annotation Set On VirtualMachine Or DataVolume
+id: 9c6bc261-efaf-4220-8ff7-dd5de33d8c4f
+status: experimental
+description: |
+    Hunts for any create, update or patch of a KubeVirt VirtualMachine or CDI DataVolume where the
+    cdi.kubevirt.io/storage.checkStaticVolume annotation appears in the request or response object.
+    The annotation exists for Metro DR; outside DR namespaces its normal baseline is usually zero, and
+    it is the switch that CVE-2026-133879 abuses. Patch bodies are partial, so the responseObject paths
+    need audit level RequestResponse.
+references:
+    - https://access.redhat.com/security/cve/CVE-2026-133879
+    - https://github.com/kubevirt/containerized-data-importer/pull/2583
+    - https://github.com/kubevirt/containerized-data-importer/pull/4346
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.privilege-escalation
+    - attack.t1068
+    - cve.2026-133879
+    - detection.threat-hunting
+logsource:
+    category: application
+    product: kubernetes
+    service: audit
+detection:
+    selection_resource:
+        - objectRef.apiGroup: 'kubevirt.io'
+          objectRef.resource: 'virtualmachines'
+        - objectRef.apiGroup: 'cdi.kubevirt.io'
+          objectRef.resource: 'datavolumes'
+    selection_verb:
+        verb:
+            - 'create'
+            - 'update'
+            - 'patch'
+    selection_annotation:
+        - requestObject.spec.dataVolumeTemplates.metadata.annotations.cdi.kubevirt.io/storage.checkStaticVolume|exists: true
+        - requestObject.metadata.annotations.cdi.kubevirt.io/storage.checkStaticVolume|exists: true
+        - responseObject.spec.dataVolumeTemplates.metadata.annotations.cdi.kubevirt.io/storage.checkStaticVolume|exists: true
+        - responseObject.metadata.annotations.cdi.kubevirt.io/storage.checkStaticVolume|exists: true
+    condition: all of selection_*
+falsepositives:
+    - Metro DR tooling (RamenDR, volume replication operators) and the DR controller service accounts; exclude them by user.username and namespace after a baseline
+    - Updates by virt-controller or CDI to objects that already carry the annotation; deduplicate per object
+level: low

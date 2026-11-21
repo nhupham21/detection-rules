@@ -1,0 +1,51 @@
+title: KubeVirt VM DataVolumeTemplate With checkStaticVolume And Cross-Namespace Clone Source
+id: af097b18-4253-40dd-8f4c-83115ae031bc
+status: test
+description: |
+    Detects create or update of a KubeVirt VirtualMachine whose DataVolumeTemplate carries the
+    cdi.kubevirt.io/storage.checkStaticVolume annotation and a clone source (PVC, snapshot or sourceRef)
+    in a namespace other than the VM's own. This is the request that triggers CVE-2026-133879.
+    Needs audit level Request or higher for virtualmachines. dataVolumeTemplates is a list, so check how
+    your backend matches fields inside arrays before trusting this rule (see the companion post).
+references:
+    - https://access.redhat.com/security/cve/CVE-2026-133879
+    - https://bugzilla.redhat.com/show_bug.cgi?id=2578653
+    - https://github.com/kubevirt/containerized-data-importer/pull/4346
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.privilege-escalation
+    - attack.t1068
+    - attack.collection
+    - attack.t1530
+    - cve.2026-133879
+    - detection.emerging-threats
+logsource:
+    category: application
+    product: kubernetes
+    service: audit
+detection:
+    selection_vm_write:
+        objectRef.apiGroup: 'kubevirt.io'
+        objectRef.resource: 'virtualmachines'
+        verb:
+            - 'create'
+            - 'update'
+    selection_annotation:
+        requestObject.spec.dataVolumeTemplates.metadata.annotations.cdi.kubevirt.io/storage.checkStaticVolume|exists: true
+    selection_source_namespace:
+        - requestObject.spec.dataVolumeTemplates.spec.source.pvc.namespace|exists: true
+        - requestObject.spec.dataVolumeTemplates.spec.source.snapshot.namespace|exists: true
+        - requestObject.spec.dataVolumeTemplates.spec.sourceRef.namespace|exists: true
+    filter_main_same_namespace_pvc:
+        requestObject.spec.dataVolumeTemplates.spec.source.pvc.namespace|fieldref: objectRef.namespace
+    filter_main_same_namespace_snapshot:
+        requestObject.spec.dataVolumeTemplates.spec.source.snapshot.namespace|fieldref: objectRef.namespace
+    filter_main_same_namespace_sourceref:
+        requestObject.spec.dataVolumeTemplates.spec.sourceRef.namespace|fieldref: objectRef.namespace
+    condition: all of selection_* and not 1 of filter_main_*
+falsepositives:
+    - Metro DR tooling (for example RamenDR) restoring VMs with checkStaticVolume; scope out the DR controller identities and namespaces
+    - VMs whose service account was legitimately granted datavolumes/source in the source namespace; verify the RoleBinding in the source namespace
+    - Platform admins deliberately cloning golden images from a shared namespace with this annotation set (rare)
+level: high

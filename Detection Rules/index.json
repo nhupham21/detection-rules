@@ -68,6 +68,94 @@
         "updated":  "2026-11-16"
     },
     {
+        "id":  "9c6bc261-efaf-4220-8ff7-dd5de33d8c4f",
+        "title":  "CDI checkStaticVolume Annotation Set On VirtualMachine Or DataVolume",
+        "domain":  "Kubernetes",
+        "path":  "Detection Rules/Kubernetes/kubernetes_audit_cdi_checkstaticvolume_annotation_set.yml",
+        "logsource":  "kubernetes/audit",
+        "attack":  [
+                       "T1068"
+                   ],
+        "tactics":  [
+                        "privilege-escalation"
+                    ],
+        "level":  "low",
+        "status":  "experimental",
+        "case":  "KubeVirt CDI checkStaticVolume cross-namespace clone bypass (CVE-2026-133879)",
+        "cves":  [
+                     "CVE-2026-133879"
+                 ],
+        "article":  null,
+        "updated":  "2026-11-22"
+    },
+    {
+        "id":  "00777947-1699-457c-8de4-125b3ee2460d",
+        "title":  "CDI DataVolume With checkStaticVolume Cross-Namespace Clone Created By KubeVirt Controller",
+        "domain":  "Kubernetes",
+        "path":  "Detection Rules/Kubernetes/kubernetes_audit_cdi_datavolume_cross_namespace_clone_by_virt_controller.yml",
+        "logsource":  "kubernetes/audit",
+        "attack":  [
+                       "T1068",
+                       "T1530"
+                   ],
+        "tactics":  [
+                        "privilege-escalation",
+                        "collection"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "KubeVirt CDI checkStaticVolume cross-namespace clone bypass (CVE-2026-133879)",
+        "cves":  [
+                     "CVE-2026-133879"
+                 ],
+        "article":  null,
+        "updated":  "2026-11-22"
+    },
+    {
+        "id":  "af097b18-4253-40dd-8f4c-83115ae031bc",
+        "title":  "KubeVirt VM DataVolumeTemplate With checkStaticVolume And Cross-Namespace Clone Source",
+        "domain":  "Kubernetes",
+        "path":  "Detection Rules/Kubernetes/kubernetes_audit_kubevirt_vm_checkstaticvolume_cross_namespace_clone.yml",
+        "logsource":  "kubernetes/audit",
+        "attack":  [
+                       "T1068",
+                       "T1530"
+                   ],
+        "tactics":  [
+                        "privilege-escalation",
+                        "collection"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "KubeVirt CDI checkStaticVolume cross-namespace clone bypass (CVE-2026-133879)",
+        "cves":  [
+                     "CVE-2026-133879"
+                 ],
+        "article":  null,
+        "updated":  "2026-11-22"
+    },
+    {
+        "id":  "fff88e08-7325-4c32-9438-c6b7636cef18",
+        "title":  "ValidatingAdmissionPolicy Violation For checkStaticVolume Cross-Namespace Clone",
+        "domain":  "Kubernetes",
+        "path":  "Detection Rules/Kubernetes/kubernetes_audit_vap_checkstaticvolume_cross_namespace_clone_violation.yml",
+        "logsource":  "kubernetes/audit",
+        "attack":  [
+                       "T1068"
+                   ],
+        "tactics":  [
+                        "privilege-escalation"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "KubeVirt CDI checkStaticVolume cross-namespace clone bypass (CVE-2026-133879)",
+        "cves":  [
+                     "CVE-2026-133879"
+                 ],
+        "article":  null,
+        "updated":  "2026-11-22"
+    },
+    {
         "id":  "e2c8278b-f88d-40c8-a9a4-3a339e3b0712",
         "title":  "Additional sshd Listener Started With Forwarding Options Or From A Shell",
         "domain":  "Linux",
