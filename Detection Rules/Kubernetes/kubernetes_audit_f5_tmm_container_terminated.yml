@@ -10,6 +10,7 @@ references:
     - https://clouddocs.f5.com/bigip-next-for-kubernetes/2.0.0-GA/spk-tmm-debug.html
     - https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/
     - https://www.cve.org/CVERecord?id=CVE-2026-121805
+    - https://netsec101.com/?p=412
 author: netsec101.com
 date: 2026-11-22
 tags:
