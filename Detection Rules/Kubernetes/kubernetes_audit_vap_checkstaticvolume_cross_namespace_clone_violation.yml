@@ -10,6 +10,7 @@ references:
     - https://access.redhat.com/security/cve/CVE-2026-133879
     - https://kubernetes.io/docs/reference/labels-annotations-taints/audit-annotations/
     - https://kubernetes.io/docs/reference/access-authn-authz/validating-admission-policy/
+    - https://netsec101.com/?p=399
 author: netsec101.com
 date: 2026-11-22
 tags:

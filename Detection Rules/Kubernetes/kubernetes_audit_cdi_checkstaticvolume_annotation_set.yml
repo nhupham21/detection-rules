@@ -11,6 +11,7 @@ references:
     - https://access.redhat.com/security/cve/CVE-2026-133879
     - https://github.com/kubevirt/containerized-data-importer/pull/2583
     - https://github.com/kubevirt/containerized-data-importer/pull/4346
+    - https://netsec101.com/?p=399
 author: netsec101.com
 date: 2026-11-22
 tags:
