@@ -1,0 +1,38 @@
+title: F5 BIG-IP TMM Restart Logged in LTM Log
+id: fab7f5f8-1bbc-4629-a5b3-8e525e57ffb3
+status: experimental
+description: |
+    Detects BIG-IP messages that TMM is being restarted, either the "Re-starting tmm" line or the sod heartbeat
+    failure "HA daemon_heartbeat tmm fails", as written to /var/log/ltm. All six November 2026 TMM stack overflows
+    make TMM terminate when triggered. The strings come from an F5 bug entry (which says "similar to") and a 2014
+    F5 community thread, and are unverified on 17.1, 17.5 and 21.1. Linking a restart to these CVEs is inference.
+references:
+    - https://cdn.f5.com/product/bugtracker/ID462903.html
+    - https://community.f5.com/discussions/technicalforum/gtm-emerg-logger-re-starting-tmm1/107659
+    - https://www.cve.org/CVERecord?id=CVE-2026-121805
+    - https://www.cve.org/CVERecord?id=CVE-2026-123637
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.impact
+    - attack.t1499.004
+    - cve.2026-121805
+    - cve.2026-120722
+    - cve.2026-120285
+    - cve.2026-120292
+    - cve.2026-116953
+    - cve.2026-123637
+    - detection.emerging-threats
+logsource:
+    product: f5
+    service: bigip_ltm
+    definition: 'BIG-IP /var/log/ltm forwarded by remote syslog. Custom logsource: map it to your BIG-IP syslog index.'
+detection:
+    keywords:
+        - 'Re-starting tmm'
+        - 'daemon_heartbeat tmm fails'
+    condition: keywords
+falsepositives:
+    - Planned reboots, upgrades, hotfix installs and failover tests
+    - TMM restarts from unrelated bugs, hardware faults or HA/VLAN failsafe actions
+level: medium

@@ -112,6 +112,86 @@
         "updated":  "2026-11-22"
     },
     {
+        "id":  "52cd65cb-4265-4312-ad93-549f783e1c8d",
+        "title":  "F5 Coremond Reports TMM Core Dump - Potential CVE-2026-121805 Family Crash",
+        "domain":  "Kubernetes",
+        "path":  "Detection Rules/Kubernetes/f5_coremond_tmm_core_file_detected.yml",
+        "logsource":  "f5/coremond",
+        "attack":  [
+                       "T1499.004",
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "impact",
+                        "initial-access"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "F5 TMM stack overflows in BIG-IP, BIG-IP Next for Kubernetes and CNF (CVE-2026-121805 and five more)",
+        "cves":  [
+                     "CVE-2026-121805",
+                     "CVE-2026-120722",
+                     "CVE-2026-120285",
+                     "CVE-2026-120292",
+                     "CVE-2026-116953",
+                     "CVE-2026-123637"
+                 ],
+        "article":  null,
+        "updated":  "2026-11-22"
+    },
+    {
+        "id":  "e57d2b48-ce3a-40a6-8127-4d5829d17142",
+        "title":  "F5 iRule Custom Resource Created or Changed With Command Affected by TMM Overflows",
+        "domain":  "Kubernetes",
+        "path":  "Detection Rules/Kubernetes/kubernetes_audit_f5_irule_cr_vulnerable_command.yml",
+        "logsource":  "kubernetes/audit",
+        "attack":  [
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "initial-access"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "F5 TMM stack overflows in BIG-IP, BIG-IP Next for Kubernetes and CNF (CVE-2026-121805 and five more)",
+        "cves":  [
+                     "CVE-2026-121805",
+                     "CVE-2026-120722",
+                     "CVE-2026-120285",
+                     "CVE-2026-120292",
+                     "CVE-2026-116953",
+                     "CVE-2026-123637"
+                 ],
+        "article":  null,
+        "updated":  "2026-11-22"
+    },
+    {
+        "id":  "eb267455-b350-4ccf-b6da-b05390a462b5",
+        "title":  "F5 TMM Container Terminated in Kubernetes Pod Status Update",
+        "domain":  "Kubernetes",
+        "path":  "Detection Rules/Kubernetes/kubernetes_audit_f5_tmm_container_terminated.yml",
+        "logsource":  "kubernetes/audit",
+        "attack":  [
+                       "T1499.004"
+                   ],
+        "tactics":  [
+                        "impact"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "F5 TMM stack overflows in BIG-IP, BIG-IP Next for Kubernetes and CNF (CVE-2026-121805 and five more)",
+        "cves":  [
+                     "CVE-2026-121805",
+                     "CVE-2026-120722",
+                     "CVE-2026-120285",
+                     "CVE-2026-120292",
+                     "CVE-2026-116953",
+                     "CVE-2026-123637"
+                 ],
+        "article":  null,
+        "updated":  "2026-11-22"
+    },
+    {
         "id":  "af097b18-4253-40dd-8f4c-83115ae031bc",
         "title":  "KubeVirt VM DataVolumeTemplate With checkStaticVolume And Cross-Namespace Clone Source",
         "domain":  "Kubernetes",
@@ -543,6 +623,32 @@
                  ],
         "article":  "https://netsec101.com/?p=244",
         "updated":  "2026-11-16"
+    },
+    {
+        "id":  "fab7f5f8-1bbc-4629-a5b3-8e525e57ffb3",
+        "title":  "F5 BIG-IP TMM Restart Logged in LTM Log",
+        "domain":  "Network",
+        "path":  "Detection Rules/Network/f5_bigip_ltm_tmm_restart.yml",
+        "logsource":  "f5/bigip_ltm",
+        "attack":  [
+                       "T1499.004"
+                   ],
+        "tactics":  [
+                        "impact"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "F5 TMM stack overflows in BIG-IP, BIG-IP Next for Kubernetes and CNF (CVE-2026-121805 and five more)",
+        "cves":  [
+                     "CVE-2026-121805",
+                     "CVE-2026-120722",
+                     "CVE-2026-120285",
+                     "CVE-2026-120292",
+                     "CVE-2026-116953",
+                     "CVE-2026-123637"
+                 ],
+        "article":  null,
+        "updated":  "2026-11-22"
     },
     {
         "id":  "185aa0a0-dcd3-4a2e-843f-a167baacc63c",

@@ -1,0 +1,48 @@
+title: F5 TMM Container Terminated in Kubernetes Pod Status Update
+id: eb267455-b350-4ccf-b6da-b05390a462b5
+status: experimental
+description: |
+    Detects the kubelet reporting that the f5-tmm container of a BIG-IP Next for Kubernetes or CNF pod
+    terminated with reason Error or OOMKilled. The November 2026 TMM stack overflows crash TMM when triggered.
+    The f5-tmm container name is documented on the BNK 2.0.0-GA pages only; CNF and BNK 2.2-2.4 naming is
+    unverified. Using pod status audit events as the signal is netsec101 inference.
+references:
+    - https://clouddocs.f5.com/bigip-next-for-kubernetes/2.0.0-GA/spk-tmm-debug.html
+    - https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/
+    - https://www.cve.org/CVERecord?id=CVE-2026-121805
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.impact
+    - attack.t1499.004
+    - cve.2026-121805
+    - cve.2026-120722
+    - cve.2026-120285
+    - cve.2026-120292
+    - cve.2026-116953
+    - detection.emerging-threats
+logsource:
+    product: kubernetes
+    service: audit
+    definition: 'Requires an audit policy that logs pods/status at level Request or RequestResponse for the BNK/CNF namespaces. The upstream example policy logs pods/status at Metadata only, which drops the body this rule needs.'
+detection:
+    selection_status:
+        objectRef.resource: 'pods'
+        objectRef.subresource: 'status'
+        verb:
+            - 'patch'
+            - 'update'
+        user.username|startswith: 'system:node:'
+    selection_container:
+        requestObject.status.containerStatuses.name: 'f5-tmm'
+    selection_terminated:
+        requestObject.status.containerStatuses.lastState.terminated.reason:
+            - 'Error'
+            - 'OOMKilled'
+    condition: all of selection_*
+falsepositives:
+    - Planned restarts, upgrades or node drains that end TMM uncleanly
+    - OOMKilled from undersized memory limits (operationally relevant, not linked to these CVEs)
+    - Multi-container pods where another container terminated (array fields flatten in most backends)
+    - Repeat matches on later status patches while lastState is unchanged; deduplicate on pod name and restart count
+level: medium

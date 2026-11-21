@@ -1,0 +1,41 @@
+title: F5 Coremond Reports TMM Core Dump - Potential CVE-2026-121805 Family Crash
+id: 52cd65cb-4265-4312-ad93-549f783e1c8d
+status: experimental
+description: |
+    Detects the F5 Coremond DaemonSet logging a new or converted core file whose name starts with core.tmm.
+    The five November 2026 iRule-triggered TMM stack overflows listed for BIG-IP Next for Kubernetes make TMM
+    terminate when triggered (CVE-2026-123637 is BIG-IP APM only and not covered here).
+    Coremond and its messages are documented on the BNK 2.0.0-GA pages only; CNF and BNK 2.2-2.4 applicability
+    is unverified. The core.tmm file prefix is inferred from the core_pattern naming.
+references:
+    - https://clouddocs.f5.com/bigip-next-for-kubernetes/2.0.0-GA/spk-coremond.html
+    - https://www.cve.org/CVERecord?id=CVE-2026-121805
+    - https://www.cve.org/CVERecord?id=CVE-2026-120722
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.impact
+    - attack.t1499.004
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-121805
+    - cve.2026-120722
+    - cve.2026-120285
+    - cve.2026-120292
+    - cve.2026-116953
+    - detection.emerging-threats
+logsource:
+    product: f5
+    service: coremond
+    definition: 'Container logs of the f5-coremond container (DaemonSet in the f5-utils namespace), shipped by your cluster log agent. Custom logsource: map it in your pipeline.'
+detection:
+    keywords_message:
+        - 'new core file detected'
+        - 'creating coredump'
+    keywords_tmm:
+        - 'core.tmm'
+    condition: keywords_message and keywords_tmm
+falsepositives:
+    - TMM crashes from unrelated F5 bugs or resource exhaustion (still worth an F5 case)
+    - Deliberate test crashes in a lab
+level: high

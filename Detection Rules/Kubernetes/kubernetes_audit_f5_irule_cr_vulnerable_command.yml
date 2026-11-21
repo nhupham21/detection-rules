@@ -1,0 +1,49 @@
+title: F5 iRule Custom Resource Created or Changed With Command Affected by TMM Overflows
+id: e57d2b48-ce3a-40a6-8127-4d5829d17142
+status: experimental
+description: |
+    Detects create, update or patch of an F5 iRule custom resource (F5BigCneIrule in the CNF docs) whose
+    spec.iRule text uses PEM::subscriber, DNS::scrape, PSC::ip_address, MR::message route or GENERICMESSAGE::route,
+    the commands F5 names as triggers for CVE-2026-121805, -120722, -120285, -120292 and -116953.
+    The resource plural and BNK CRD names are not confirmed, so the rule matches on 'irule' in the resource name.
+references:
+    - https://clouddocs.f5.com/cnfs/robin/latest/cnf-irule-crd.html
+    - https://www.cve.org/CVERecord?id=CVE-2026-121805
+    - https://www.cve.org/CVERecord?id=CVE-2026-120722
+    - https://www.cve.org/CVERecord?id=CVE-2026-120285
+    - https://www.cve.org/CVERecord?id=CVE-2026-120292
+    - https://www.cve.org/CVERecord?id=CVE-2026-116953
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-121805
+    - cve.2026-120722
+    - cve.2026-120285
+    - cve.2026-120292
+    - cve.2026-116953
+    - detection.emerging-threats
+logsource:
+    product: kubernetes
+    service: audit
+    definition: 'Requires the F5 iRule resource to be audited at level Request or RequestResponse so requestObject is recorded.'
+detection:
+    selection_resource:
+        objectRef.resource|contains: 'irule'
+        verb:
+            - 'create'
+            - 'update'
+            - 'patch'
+    selection_command:
+        - requestObject.spec.iRule|contains:
+              - 'PEM::subscriber'
+              - 'DNS::scrape'
+              - 'PSC::ip_address'
+              - 'GENERICMESSAGE::route'
+        - requestObject.spec.iRule|re: 'MR::message\s+route'
+    condition: all of selection_*
+falsepositives:
+    - Legitimate service-provider iRules that use these commands (PEM, DNS, MRF deployments); treat a match as an exposure to patch, not an intrusion
+    - GitOps reconciliation re-applying an unchanged rule
+level: medium
