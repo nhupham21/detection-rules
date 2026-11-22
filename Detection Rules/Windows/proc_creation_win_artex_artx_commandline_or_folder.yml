@@ -1,0 +1,31 @@
+title: Process Command Line Containing ARTEX Markers or the artx5v ProgramData Folder
+id: c3f49f35-066f-42d7-b720-bcfd334be157
+status: test
+description: |
+    Detects processes whose command line contains "artx" or "artex", or whose image runs from
+    C:\ProgramData\artx5v\, markers CrowdStrike published for VAPOR PANDA intrusions that used ARTEX.
+    Operator-chosen strings can change between campaigns; treat this as an emerging-threat rule with a short life.
+references:
+    - https://www.crowdstrike.com/en-us/blog/vapor-panda-uses-artex-to-scale-global-campaign/
+    - https://www.ic3.gov/CSA/2026/261113.pdf
+    - https://netsec101.com/?p=440
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.execution
+    - attack.t1059
+    - detection.emerging-threats
+logsource:
+    product: windows
+    category: process_creation
+detection:
+    selection_cli:
+        CommandLine|contains:
+            - 'artx'
+            - 'artex'
+    selection_folder:
+        Image|contains: '\ProgramData\artx5v\'
+    condition: 1 of selection_*
+falsepositives:
+    - Unrelated software whose names or paths contain the substring; review the first hits and exclude by Image
+level: high

@@ -1,0 +1,35 @@
+title: Request to an API Route on a Web Application
+id: 85080318-39fb-4d9e-9d90-f03b98cf9256
+name: web_api_route_request
+status: experimental
+description: |
+    Base rule for the spec-driven targeting correlation. Matches any request whose path looks like an API
+    route. Not meant to alert on its own; adjust the path prefixes to the API layout of your applications.
+references:
+    - https://unit42.paloaltonetworks.com/artex-and-ai-powered-red-teaming-tools/
+    - https://netsec101.com/?p=440
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.initial-access
+    - attack.t1190
+logsource:
+    category: webserver
+detection:
+    selection:
+        - cs-uri-stem|startswith:
+              - '/api/'
+              - '/v1/'
+              - '/v2/'
+              - '/v3/'
+              - '/graphql'
+        - cs-uri-stem|contains: '/api/'
+    filter_main_docs:
+        cs-uri-stem|endswith:
+            - '/openapi.json'
+            - '/swagger.json'
+            - '/api-docs'
+    condition: selection and not filter_main_docs
+falsepositives:
+    - All normal API traffic; this rule only feeds the correlation
+level: informational

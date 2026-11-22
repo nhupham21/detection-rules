@@ -1,0 +1,35 @@
+title: Entra ID Directory Role Assigned to a Service Principal by an Application
+id: f0ade3d8-3877-4830-83f2-6d97006ca11c
+status: test
+description: |
+    Detects a directory role assignment to a service principal where the actor is an application, not a user.
+    Huntress saw compromised multi-tenant apps in the ConnectWise campaign assign themselves directory roles
+    from 01:58 UTC on October 15, 2026. Narrows the SigmaHQ rule "App Assigned To Azure RBAC/Microsoft Entra
+    Role" (b04934b2-0a68-4845-8a19-bdfed3a68a7a) to app-initiated changes.
+references:
+    - https://www.huntress.com/blog/vendor-credential-enables-unauthorized-access
+    - https://www.microsoft.com/en-us/security/blog/2026/10/21/storm-0940-uses-artex-agentic-ai-connectwise-supply-chain-compromise/
+    - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/audit_logs/azure_app_role_added.yml
+    - https://netsec101.com/?p=440
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.persistence
+    - attack.privilege-escalation
+    - attack.t1098.003
+logsource:
+    product: azure
+    service: auditlogs
+detection:
+    selection_role:
+        properties.message:
+            - 'Add member to role'
+            - 'Add eligible member to role'
+            - 'Add scoped member to role'
+        targetResources.type: 'Service Principal'
+    selection_actor_app:
+        initiatedBy.app.servicePrincipalId|exists: true
+    condition: all of selection_*
+falsepositives:
+    - Identity governance or provisioning apps built to assign roles; list them by servicePrincipalId and exclude them
+level: high

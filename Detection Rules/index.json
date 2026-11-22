@@ -1,5 +1,135 @@
 [
     {
+        "id":  "d9f4e825-a4ea-4854-a392-7578f70c0e0e",
+        "title":  "AWS API Call Made With the DryRun Flag",
+        "domain":  "Cloud-AWS",
+        "path":  "Detection Rules/Cloud/AWS/aws_cloudtrail_dryrun_call.yml",
+        "logsource":  "aws/cloudtrail",
+        "attack":  [
+                       "T1580"
+                   ],
+        "tactics":  [
+                        "discovery"
+                    ],
+        "level":  "low",
+        "status":  "experimental",
+        "case":  "ARTEX agentic AI pentest framework abuse (FBI FLASH-20261113-001)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/?p=440",
+        "updated":  "2026-11-22"
+    },
+    {
+        "id":  "41496dc1-ce0a-47f9-9e2d-30323032403b",
+        "title":  "AWS DryRun Permission Sweep - Five or More Distinct APIs Tested by One Access Key",
+        "domain":  "Cloud-AWS",
+        "path":  "Detection Rules/Cloud/AWS/aws_cloudtrail_dryrun_permission_sweep_correlation.yml",
+        "logsource":  "aws/cloudtrail (correlation)",
+        "attack":  [
+                       "T1580",
+                       "T1078.004"
+                   ],
+        "tactics":  [
+                        "discovery",
+                        "initial-access"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "ARTEX agentic AI pentest framework abuse (FBI FLASH-20261113-001)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/?p=440",
+        "updated":  "2026-11-22"
+    },
+    {
+        "id":  "24d3f38e-bfe4-425d-b437-476b196b6cf0",
+        "title":  "AWS S3 Object Written and Deleted by the Same Identity Within One Minute",
+        "domain":  "Cloud-AWS",
+        "path":  "Detection Rules/Cloud/AWS/aws_cloudtrail_s3_write_then_delete_probe_correlation.yml",
+        "logsource":  "aws/cloudtrail (correlation)",
+        "attack":  [
+                       "T1580",
+                       "T1078.004"
+                   ],
+        "tactics":  [
+                        "discovery",
+                        "initial-access"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "ARTEX agentic AI pentest framework abuse (FBI FLASH-20261113-001)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/?p=440",
+        "updated":  "2026-11-22"
+    },
+    {
+        "id":  "4abbc0bb-082d-42a4-8ff6-6a711f834c77",
+        "title":  "AWS S3 Object Written or Deleted",
+        "domain":  "Cloud-AWS",
+        "path":  "Detection Rules/Cloud/AWS/aws_cloudtrail_s3_object_put_or_delete.yml",
+        "logsource":  "aws/cloudtrail",
+        "attack":  [
+                       "T1580"
+                   ],
+        "tactics":  [
+                        "discovery"
+                    ],
+        "level":  "informational",
+        "status":  "experimental",
+        "case":  "ARTEX agentic AI pentest framework abuse (FBI FLASH-20261113-001)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/?p=440",
+        "updated":  "2026-11-22"
+    },
+    {
+        "id":  "e6881822-164a-4638-8c97-f21050921796",
+        "title":  "Azure Key Vault Secret Read",
+        "domain":  "Cloud-Azure",
+        "path":  "Detection Rules/Cloud/Azure/azure_keyvault_secret_get.yml",
+        "logsource":  "azure/keyvault",
+        "attack":  [
+                       "T1555.006"
+                   ],
+        "tactics":  [
+                        "credential-access"
+                    ],
+        "level":  "informational",
+        "status":  "test",
+        "case":  "ARTEX agentic AI pentest framework abuse (FBI FLASH-20261113-001)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/?p=440",
+        "updated":  "2026-11-22"
+    },
+    {
+        "id":  "b4558cd4-6c25-4d8f-bea6-1a6ea78c461c",
+        "title":  "Azure Key Vault Secret Read Burst Across Multiple Vaults by One Identity",
+        "domain":  "Cloud-Azure",
+        "path":  "Detection Rules/Cloud/Azure/azure_keyvault_secret_reads_across_vaults_correlation.yml",
+        "logsource":  "azure/keyvault (correlation)",
+        "attack":  [
+                       "T1555.006"
+                   ],
+        "tactics":  [
+                        "credential-access"
+                    ],
+        "level":  "medium",
+        "status":  "test",
+        "case":  "ARTEX agentic AI pentest framework abuse (FBI FLASH-20261113-001)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/?p=440",
+        "updated":  "2026-11-22"
+    },
+    {
         "id":  "6d8a889e-1a29-4c85-997f-2504dec3eed4",
         "title":  "JVM Fatal Error Log hs_err_pid Created",
         "domain":  "Cross-Platform",
@@ -43,6 +173,28 @@
                  ],
         "article":  "https://netsec101.com/?p=241",
         "updated":  "2026-11-16"
+    },
+    {
+        "id":  "f0ade3d8-3877-4830-83f2-6d97006ca11c",
+        "title":  "Entra ID Directory Role Assigned to a Service Principal by an Application",
+        "domain":  "Identity",
+        "path":  "Detection Rules/Identity/azure_auditlogs_app_assigned_directory_role_by_app.yml",
+        "logsource":  "azure/auditlogs",
+        "attack":  [
+                       "T1098.003"
+                   ],
+        "tactics":  [
+                        "persistence",
+                        "privilege-escalation"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "ARTEX agentic AI pentest framework abuse (FBI FLASH-20261113-001)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/?p=440",
+        "updated":  "2026-11-22"
     },
     {
         "id":  "3f27fc62-3ea2-4c99-911c-4386ebb234fc",
@@ -741,6 +893,29 @@
         "updated":  "2026-11-16"
     },
     {
+        "id":  "3ac6dd7a-0751-45db-be40-32bc3a17e16e",
+        "title":  "API Specification Fetch Followed by a Route Sweep From the Same Client",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_api_spec_fetch_then_route_sweep_correlation.yml",
+        "logsource":  "webserver (correlation)",
+        "attack":  [
+                       "T1190",
+                       "T1594"
+                   ],
+        "tactics":  [
+                        "initial-access",
+                        "reconnaissance"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "ARTEX agentic AI pentest framework abuse (FBI FLASH-20261113-001)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/?p=440",
+        "updated":  "2026-11-22"
+    },
+    {
         "id":  "3a7e544c-c8b8-4c44-8efc-87e545f44760",
         "title":  "Barracuda ESG Admin CGI POST From Public IP - Potential CVE-2026-116606 Exploitation",
         "domain":  "Web/App",
@@ -897,6 +1072,27 @@
         "updated":  "2026-11-19"
     },
     {
+        "id":  "ab58ceb0-72f2-47c9-ac34-690630e0a2d0",
+        "title":  "OpenAPI Specification or JavaScript Source Map Served to a Client",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_api_spec_or_source_map_fetch.yml",
+        "logsource":  "webserver",
+        "attack":  [
+                       "T1594"
+                   ],
+        "tactics":  [
+                        "reconnaissance"
+                    ],
+        "level":  "low",
+        "status":  "experimental",
+        "case":  "ARTEX agentic AI pentest framework abuse (FBI FLASH-20261113-001)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/?p=440",
+        "updated":  "2026-11-22"
+    },
+    {
         "id":  "06184bae-fd4a-4a75-896c-0af780ed4e0b",
         "title":  "Potential CVE-2025-42884 Exploitation - JNDI Environment Property in SAP Portal Request",
         "domain":  "Web/App",
@@ -959,6 +1155,27 @@
                  ],
         "article":  "https://netsec101.com/?p=330",
         "updated":  "2026-11-18"
+    },
+    {
+        "id":  "85080318-39fb-4d9e-9d90-f03b98cf9256",
+        "title":  "Request to an API Route on a Web Application",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_api_route_request.yml",
+        "logsource":  "webserver",
+        "attack":  [
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "initial-access"
+                    ],
+        "level":  "informational",
+        "status":  "experimental",
+        "case":  "ARTEX agentic AI pentest framework abuse (FBI FLASH-20261113-001)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/?p=440",
+        "updated":  "2026-11-22"
     },
     {
         "id":  "ec7bc0ea-16eb-4a06-9571-437e3d2859ec",
@@ -1045,6 +1262,27 @@
         "updated":  "2026-11-16"
     },
     {
+        "id":  "0c218c42-4489-4ca9-be5d-6bfe3e99986f",
+        "title":  "Web Request With ARTEX Default User-Agent or Agent Canary Placeholder Values",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_artex_default_strings_in_request.yml",
+        "logsource":  "webserver",
+        "attack":  [
+                       "T1595.002"
+                   ],
+        "tactics":  [
+                        "reconnaissance"
+                    ],
+        "level":  "medium",
+        "status":  "test",
+        "case":  "ARTEX agentic AI pentest framework abuse (FBI FLASH-20261113-001)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/?p=440",
+        "updated":  "2026-11-22"
+    },
+    {
         "id":  "ffd31285-6675-4535-90f7-af9404d20863",
         "title":  "Msiexec Quiet Administrative Install Into User LocalAppData",
         "domain":  "Windows",
@@ -1064,6 +1302,27 @@
                  ],
         "article":  "https://netsec101.com/?p=328",
         "updated":  "2026-11-18"
+    },
+    {
+        "id":  "c3f49f35-066f-42d7-b720-bcfd334be157",
+        "title":  "Process Command Line Containing ARTEX Markers or the artx5v ProgramData Folder",
+        "domain":  "Windows",
+        "path":  "Detection Rules/Windows/proc_creation_win_artex_artx_commandline_or_folder.yml",
+        "logsource":  "windows/process_creation",
+        "attack":  [
+                       "T1059"
+                   ],
+        "tactics":  [
+                        "execution"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "ARTEX agentic AI pentest framework abuse (FBI FLASH-20261113-001)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/?p=440",
+        "updated":  "2026-11-22"
     },
     {
         "id":  "6ebf86c0-7d62-47c8-8bbd-da5fd10a5487",

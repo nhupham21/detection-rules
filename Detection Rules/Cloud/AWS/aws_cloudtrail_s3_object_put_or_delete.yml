@@ -1,0 +1,30 @@
+title: AWS S3 Object Written or Deleted
+id: 4abbc0bb-082d-42a4-8ff6-6a711f834c77
+name: aws_s3_object_put_or_delete
+status: experimental
+description: |
+    Base rule for the S3 write-then-delete probe correlation. Matches successful PutObject and DeleteObject
+    data events. Requires CloudTrail S3 data events, which are off by default.
+references:
+    - https://unit42.paloaltonetworks.com/artex-and-ai-powered-red-teaming-tools/
+    - https://netsec101.com/?p=440
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.discovery
+    - attack.t1580
+logsource:
+    product: aws
+    service: cloudtrail
+detection:
+    selection:
+        eventSource: 's3.amazonaws.com'
+        eventName:
+            - 'PutObject'
+            - 'DeleteObject'
+    filter_main_failed:
+        errorCode|exists: true
+    condition: selection and not filter_main_failed
+falsepositives:
+    - All normal object writes and deletes; this rule only feeds the correlation
+level: informational

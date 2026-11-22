@@ -1,0 +1,59 @@
+title: Many Distinct API Routes Requested by One Client
+id: d73010fb-2c25-4822-aa86-e98c299142d3
+name: web_api_route_sweep
+status: experimental
+description: |
+    Correlation step 1 of 2. Counts distinct API paths requested by one client IP in five minutes.
+    Feeds the spec-driven targeting sequence below; not meant to alert on its own.
+references:
+    - https://unit42.paloaltonetworks.com/artex-and-ai-powered-red-teaming-tools/
+    - https://netsec101.com/?p=440
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.initial-access
+    - attack.t1190
+correlation:
+    type: value_count
+    rules:
+        - web_api_route_request
+    group-by:
+        - c-ip
+    timespan: 5m
+    condition:
+        field: cs-uri-stem
+        gte: 10
+falsepositives:
+    - Single-page applications that call many API routes on load; raise the threshold above your busiest real client
+level: informational
+---
+title: API Specification Fetch Followed by a Route Sweep From the Same Client
+id: 3ac6dd7a-0751-45db-be40-32bc3a17e16e
+status: experimental
+description: |
+    Detects a client that downloads an OpenAPI specification or source map and then, within five minutes,
+    requests at least ten distinct API routes. Unit 42 reports ARTEX agents hitting routes from downloaded
+    specs almost immediately. The window and the threshold are inferred, not published values.
+references:
+    - https://unit42.paloaltonetworks.com/artex-and-ai-powered-red-teaming-tools/
+    - https://www.ic3.gov/CSA/2026/261113.pdf
+    - https://netsec101.com/?p=440
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - attack.reconnaissance
+    - attack.t1594
+correlation:
+    type: temporal_ordered
+    rules:
+        - web_api_spec_fetch
+        - web_api_route_sweep
+    group-by:
+        - c-ip
+    timespan: 5m
+falsepositives:
+    - API testing tools (Postman, Insomnia) importing your spec and running a collection; exclude internal and partner integration ranges
+    - Your own DAST scanner
+level: medium

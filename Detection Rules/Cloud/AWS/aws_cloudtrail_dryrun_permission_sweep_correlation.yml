@@ -1,0 +1,31 @@
+title: AWS DryRun Permission Sweep - Five or More Distinct APIs Tested by One Access Key
+id: 41496dc1-ce0a-47f9-9e2d-30323032403b
+status: experimental
+description: |
+    Detects one access key making successful DryRun calls against at least five different API actions within
+    five minutes. An agent probing what a stolen key can do tests many actions in quick succession; automation
+    usually dry-runs the one action it is about to perform. Threshold and window are inferred.
+references:
+    - https://www.ic3.gov/CSA/2026/261113.pdf
+    - https://unit42.paloaltonetworks.com/artex-and-ai-powered-red-teaming-tools/
+    - https://netsec101.com/?p=440
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.discovery
+    - attack.t1580
+    - attack.initial-access
+    - attack.t1078.004
+correlation:
+    type: value_count
+    rules:
+        - aws_dryrun_call
+    group-by:
+        - userIdentity.accessKeyId
+    timespan: 5m
+    condition:
+        field: eventName
+        gte: 5
+falsepositives:
+    - Permission audit tools and IaC plan stages that dry-run many actions; exclude their role ARNs or access keys
+level: medium

@@ -1,0 +1,36 @@
+title: Web Request With ARTEX Default User-Agent or Agent Canary Placeholder Values
+id: 0c218c42-4489-4ca9-be5d-6bfe3e99986f
+status: test
+description: |
+    Detects web requests carrying one of the high-specificity ARTEX-family User-Agent strings reported by
+    ReversingLabs, or placeholder values Unit 42 saw ARTEX agents submit while probing forms and APIs
+    (evil.com, test@example.com, deadbeefdeadbeefdeadbeef12). Operators can change the User-Agent, so a miss
+    proves nothing; a hit is worth a look at everything else that source did.
+references:
+    - https://unit42.paloaltonetworks.com/artex-and-ai-powered-red-teaming-tools/
+    - https://www.reversinglabs.com/blog/threat-researchers-notebook-detection-strategies-for-artex-and-related-forks
+    - https://netsec101.com/?p=440
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.reconnaissance
+    - attack.t1595.002
+    - detection.emerging-threats
+logsource:
+    category: webserver
+detection:
+    selection_ua_exact:
+        cs-user-agent: 'Mozilla/5.0 (ARTEX)'
+    selection_ua_antifox:
+        cs-user-agent|contains: 'spa-api-recon'
+    selection_canary:
+        cs-uri-query|contains:
+            - 'evil.com'
+            - 'test@example.com'
+            - 'test%40example.com'
+            - 'deadbeefdeadbeefdeadbeef12'
+    condition: 1 of selection_*
+falsepositives:
+    - Your own authorised scanners, bug bounty hunters and QA suites that use evil.com or test@example.com as test values; exclude their source IPs
+    - Placeholders sent in POST bodies are invisible in standard access logs; this rule only sees the query string
+level: medium

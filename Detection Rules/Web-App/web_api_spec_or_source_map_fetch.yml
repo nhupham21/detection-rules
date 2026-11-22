@@ -1,0 +1,37 @@
+title: OpenAPI Specification or JavaScript Source Map Served to a Client
+id: ab58ceb0-72f2-47c9-ac34-690630e0a2d0
+name: web_api_spec_fetch
+status: experimental
+description: |
+    Base rule for the spec-driven targeting correlation. Matches a successful download of an OpenAPI or
+    Swagger definition or a JavaScript source map. Unit 42 saw ARTEX agents target routes from downloaded
+    OpenAPI specs and source maps almost immediately. On its own this is an exposure finding, not an alert.
+references:
+    - https://unit42.paloaltonetworks.com/artex-and-ai-powered-red-teaming-tools/
+    - https://netsec101.com/?p=440
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.reconnaissance
+    - attack.t1594
+    - detection.threat-hunting
+logsource:
+    category: webserver
+detection:
+    selection_path:
+        - cs-uri-stem|endswith:
+              - '/openapi.json'
+              - '/openapi.yaml'
+              - '/swagger.json'
+              - '/swagger.yaml'
+              - '/api-docs'
+              - '.js.map'
+        - cs-uri-stem|contains:
+              - '/v2/api-docs'
+              - '/v3/api-docs'
+    selection_status:
+        sc-status: 200
+    condition: all of selection_*
+falsepositives:
+    - Developer portals that publish their spec on purpose; browsers with developer tools open fetch source maps
+level: low

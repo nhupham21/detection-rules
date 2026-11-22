@@ -1,0 +1,28 @@
+title: AWS API Call Made With the DryRun Flag
+id: d9f4e825-a4ea-4854-a392-7578f70c0e0e
+name: aws_dryrun_call
+status: experimental
+description: |
+    Matches CloudTrail events with errorCode Client.DryRunOperation, which AWS records when a call made with
+    DryRun would have succeeded. The FBI lists AWS DryRun permission tests among ARTEX techniques. Single
+    dry runs are common from normal tooling, so this is a base and hunting rule.
+references:
+    - https://www.ic3.gov/CSA/2026/261113.pdf
+    - https://repost.aws/questions/QUPHL9FYTHSrCE4eaMjJD66Q/cloudtrail-client-dryrunoperation
+    - https://netsec101.com/?p=440
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.discovery
+    - attack.t1580
+    - detection.threat-hunting
+logsource:
+    product: aws
+    service: cloudtrail
+detection:
+    selection:
+        errorCode: 'Client.DryRunOperation'
+    condition: selection
+falsepositives:
+    - Infrastructure-as-code tools, the AWS console and admin scripts that validate permissions before acting
+level: low
