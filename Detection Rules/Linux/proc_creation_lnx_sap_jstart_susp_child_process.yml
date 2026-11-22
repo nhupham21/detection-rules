@@ -1,0 +1,51 @@
+title: Shell or Download Tool Spawned by SAP NetWeaver Java Server Process - Linux
+id: 6b5f1a48-c9b3-4966-980f-beed8b0a5a7e
+status: experimental
+description: |
+    Detects the SAP NetWeaver AS Java server process (jstart, or a java binary under /usr/sap/) starting a
+    shell, scripting interpreter or network/download tool. If a JNDI injection such as CVE-2025-42884 is
+    chained into code execution (an Onapsis claim, unconfirmed), the payload runs as a child of the Java
+    server. Complements the SigmaHQ CVE-2025-31324 rule, which keys on IRJ web-application paths instead.
+references:
+    - https://cveawg.mitre.org/api/cve/CVE-2025-42884
+    - https://www.rescana.com/post/sap-netweaver-enterprise-portal-cve-2025-42884-jndi-injection-kev-patch-now
+    - https://detection.fyi/sigmahq/sigma/emerging-threats/2025/exploits/cve-2025-31324/proc_creation_lnx_sap_netweaver_susp_child_process/
+    - https://netsec101.com/2026/11/22/cve-2025-42884-sap-netweaver-portal-jndi-kev-sigma-detection-rules/
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.execution
+    - attack.t1059.004
+    - attack.command-and-control
+    - attack.t1105
+    - cve.2025-42884
+logsource:
+    product: linux
+    category: process_creation
+detection:
+    selection_parent_jstart:
+        ParentImage|endswith: '/jstart'
+    selection_parent_java:
+        ParentImage|contains: '/usr/sap/'
+        ParentImage|endswith: '/java'
+    selection_child:
+        Image|endswith:
+            - '/sh'
+            - '/bash'
+            - '/dash'
+            - '/ksh'
+            - '/zsh'
+            - '/busybox'
+            - '/python'
+            - '/python3'
+            - '/perl'
+            - '/curl'
+            - '/wget'
+            - '/nc'
+            - '/ncat'
+            - '/socat'
+    condition: 1 of selection_parent_* and selection_child
+falsepositives:
+    - SAP-delivered or custom jobs that run OS commands from the Java stack (for example scripts started through NetWeaver Administrator or a scheduler); baseline the CommandLine values for two weeks and filter them by exact match
+    - Support engineers running OS diagnostics through SAP tooling
+level: high

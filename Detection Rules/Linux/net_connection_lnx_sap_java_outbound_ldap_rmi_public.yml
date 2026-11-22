@@ -1,0 +1,50 @@
+title: SAP NetWeaver Java Server Outbound LDAP or RMI Connection to Public IP - Linux
+id: 7fd81d3d-f4d9-4b13-85b8-61f056e16923
+status: experimental
+description: |
+    Hunting heuristic: detects the SAP NetWeaver AS Java server process (jstart, or a java binary under
+    /usr/sap/) opening an outbound connection to a non-private address on an LDAP, LDAPS, global catalog or
+    RMI registry port. A JNDI injection such as CVE-2025-42884 makes the server contact an attacker-chosen
+    provider; this is that callback. Process names and ports are inferred, not from observed attacks.
+references:
+    - https://cveawg.mitre.org/api/cve/CVE-2025-42884
+    - https://labs.withsecure.com/publications/netweaver-cve-2025-31324
+    - https://netsec101.com/2026/11/22/cve-2025-42884-sap-netweaver-portal-jndi-kev-sigma-detection-rules/
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - cve.2025-42884
+logsource:
+    product: linux
+    category: network_connection
+detection:
+    selection_img_jstart:
+        Image|endswith: '/jstart'
+    selection_img_java:
+        Image|contains: '/usr/sap/'
+        Image|endswith: '/java'
+    selection_port:
+        DestinationPort:
+            - 389
+            - 636
+            - 1099
+            - 3268
+            - 3269
+    filter_main_private:
+        DestinationIp|cidr:
+            - '10.0.0.0/8'
+            - '172.16.0.0/12'
+            - '192.168.0.0/16'
+            - '127.0.0.0/8'
+            - '169.254.0.0/16'
+            - '100.64.0.0/10'
+            - '::1/128'
+            - 'fc00::/7'
+            - 'fe80::/10'
+    condition: 1 of selection_img_* and selection_port and not filter_main_private
+falsepositives:
+    - Portals configured against a directory hosted on public address space (cloud LDAP or a partner directory); add those destinations to a filter
+    - Organisations that use public IP ranges internally; replace the private-range filter with your own internal ranges
+level: medium

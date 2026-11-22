@@ -1,0 +1,32 @@
+title: Potential CVE-2025-42884 Exploitation - JNDI Provider URL Scheme in SAP Portal Request
+id: debb5055-ec28-4b73-bf08-4d7c766bba3d
+status: experimental
+description: |
+    Hunting heuristic for CVE-2025-42884: detects HTTP requests whose URI or query string contains a
+    JNDI-capable provider URL (ldap, ldaps, rmi, iiop, dns), plain, URL-encoded or double-encoded. The CVE
+    says an attacker can pass a URL used during a JNDI lookup. No IOCs are public; the logic is inferred
+    from the bug class and will also fire on Log4Shell-style spraying.
+references:
+    - https://cveawg.mitre.org/api/cve/CVE-2025-42884
+    - https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2025-42884
+    - https://netsec101.com/2026/11/22/cve-2025-42884-sap-netweaver-portal-jndi-kev-sigma-detection-rules/
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - cve.2025-42884
+    - detection.emerging-threats
+logsource:
+    category: webserver
+detection:
+    selection_query:
+        cs-uri-query|re|i: '(ldaps?|rmi|iiop|dns)(:|%3a|%253a)(/|%2f|%252f){2}'
+    selection_stem:
+        cs-uri-stem|re|i: '(ldaps?|rmi|iiop|dns)(:|%3a|%253a)(/|%2f|%252f){2}'
+    condition: 1 of selection_*
+falsepositives:
+    - Internet-wide Log4Shell and JNDI scanners (expected background noise on any exposed web server; triage by response code and by outbound connections from the portal host)
+    - Portal or UME administration pages that take an LDAP server URL as a parameter (usually POST bodies, which access logs do not record)
+    - Redirect or deep-link parameters that legitimately embed an ldap:// URL (rare; allowlist by cs-uri-stem)
+level: medium

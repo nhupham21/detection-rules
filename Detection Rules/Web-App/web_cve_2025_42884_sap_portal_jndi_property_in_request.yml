@@ -1,0 +1,36 @@
+title: Potential CVE-2025-42884 Exploitation - JNDI Environment Property in SAP Portal Request
+id: 06184bae-fd4a-4a75-896c-0af780ed4e0b
+status: experimental
+description: |
+    Hunting heuristic for CVE-2025-42884: detects HTTP requests whose URI or query string carries a standard
+    JNDI environment property name (java.naming.*), plain or URL-encoded. The CVE describes unauthenticated
+    injection of JNDI environment properties into SAP NetWeaver Enterprise Portal. No IOCs or request samples
+    are public, so the match strings are inferred from the bug class, not from observed attacks.
+references:
+    - https://cveawg.mitre.org/api/cve/CVE-2025-42884
+    - https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2025-42884
+    - https://support.sap.com/en/my-support/knowledge-base/security-notes-news/bulletin-2025.html
+    - https://netsec101.com/2026/11/22/cve-2025-42884-sap-netweaver-portal-jndi-kev-sigma-detection-rules/
+author: netsec101.com
+date: 2026-11-22
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - cve.2025-42884
+    - detection.emerging-threats
+logsource:
+    category: webserver
+detection:
+    selection_query:
+        cs-uri-query|contains:
+            - 'java.naming.'
+            - 'java%2enaming'
+    selection_stem:
+        cs-uri-stem|contains:
+            - 'java.naming.'
+            - 'java%2enaming'
+    condition: 1 of selection_*
+falsepositives:
+    - Vulnerability scanners and authorised penetration tests probing for JNDI injection
+    - Administrators testing JNDI or UME settings through the portal from an internal admin workstation (scope the rule to external or reverse-proxy traffic)
+level: high
