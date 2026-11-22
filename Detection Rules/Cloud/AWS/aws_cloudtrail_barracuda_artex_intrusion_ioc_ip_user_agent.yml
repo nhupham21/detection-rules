@@ -1,0 +1,36 @@
+title: AWS CloudTrail Activity From Barracuda ARTEX-Style Intrusion Indicators
+id: b6ad40af-9830-4350-ae2b-c3a597b5da33
+status: test
+description: |
+    Detects AWS API calls from the source IP addresses or the distinctive user agent that Barracuda
+    published for the November 1-2, 2026 cloud intrusion, in which a stale third-party access key was
+    used with tooling that resembles the ARTEX AI pentest framework. The indicators are historical and
+    do not prove malicious activity on their own.
+references:
+    - https://trust.barracuda.com/security/barracuda-xdr-integration-credentials
+    - https://blog.barracuda.com/2026/11/11/anatomy-of-a-machine-speed-intrusion
+    - https://www.ic3.gov/CSA/2026/261113.pdf
+    - https://netsec101.com/2026/11/22/barracuda-cloud-breach-artex-machine-speed-intrusion-sigma-detection-rules/
+author: netsec101.com
+date: 2026-11-17
+tags:
+    - attack.initial-access
+    - attack.t1078
+    - detection.emerging-threats
+logsource:
+    product: aws
+    service: cloudtrail
+detection:
+    selection_ip:
+        sourceIPAddress:
+            - '180.178.56.10'
+            - '52.128.238.126'
+            - '221.146.68.107'
+            - '2a09:bac1:7680:3d0::26b:5b'
+    selection_ua:
+        userAgent|contains: '(compatible; read-only-audit)'
+    condition: 1 of selection_*
+falsepositives:
+    - IP addresses get reassigned; a match months after November 2026 may be an unrelated tenant of that address
+    - An internal audit script that happens to use the same user-agent string
+level: high

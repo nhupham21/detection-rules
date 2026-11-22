@@ -1,0 +1,32 @@
+title: Kubernetes Pod Created With Host Root Filesystem Mounted via hostPath
+id: d27a1900-f4d1-487a-afd2-044c95b19894
+status: experimental
+description: |
+    Detects creation of a pod whose hostPath volume mounts the node's root filesystem ("/"). In the
+    Barracuda intrusion of November 2026 the attacker deployed a container that mounted the host
+    filesystem read-only, which was enough to harvest the node's credentials. The exact path used was
+    not published; matching "/" is an inference.
+references:
+    - https://blog.barracuda.com/2026/11/11/anatomy-of-a-machine-speed-intrusion
+    - https://www.ic3.gov/CSA/2026/261113.pdf
+    - https://www.elastic.co/guide/en/security/current/kubernetes-pod-created-with-a-sensitive-hostpath-volume.html
+    - https://netsec101.com/2026/11/22/barracuda-cloud-breach-artex-machine-speed-intrusion-sigma-detection-rules/
+author: netsec101.com
+date: 2026-11-17
+tags:
+    - attack.credential-access
+    - attack.t1552.001
+logsource:
+    product: kubernetes
+    service: audit
+    definition: 'Requirement: API server audit policy logging pod create at Request or RequestResponse level, and a pipeline that flattens requestObject.spec.volumes.'
+detection:
+    selection:
+        verb: 'create'
+        objectRef.resource: 'pods'
+        requestObject.spec.volumes.hostPath.path: '/'
+    condition: selection
+falsepositives:
+    - Node agents deployed as DaemonSets (EDR, log shippers, monitoring exporters, CSI drivers) that mount the host root; exclude them by namespace and service account, not by image name alone
+    - Debug pods started with kubectl debug node/... by cluster administrators
+level: high

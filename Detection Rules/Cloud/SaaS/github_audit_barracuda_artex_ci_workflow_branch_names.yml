@@ -1,0 +1,30 @@
+title: GitHub Audit Event Referencing Barracuda ARTEX-Style CI Workflow or Branch Names
+id: 26d77d79-fab9-49c2-8354-1507caf2637c
+status: test
+description: |
+    Detects GitHub audit log events that reference the workflow files (i19ghci.yml, i19ci2.yml) or the
+    branch prefixes (i19ghci-, i19ci2-) that Barracuda published. In the intrusion, short-lived branches
+    were pushed to several repositories to trigger a build workflow that printed encoded build-system
+    secrets into job logs.
+references:
+    - https://trust.barracuda.com/security/barracuda-xdr-integration-credentials
+    - https://blog.barracuda.com/2026/11/11/anatomy-of-a-machine-speed-intrusion
+    - https://netsec101.com/2026/11/22/barracuda-cloud-breach-artex-machine-speed-intrusion-sigma-detection-rules/
+author: netsec101.com
+date: 2026-11-17
+tags:
+    - attack.credential-access
+    - attack.t1552.001
+    - detection.emerging-threats
+logsource:
+    product: github
+    service: audit
+    definition: 'Requirement: GitHub organisation or enterprise audit log streaming to the SIEM, including git and workflow events where your plan provides them.'
+detection:
+    keywords:
+        - 'i19ghci'
+        - 'i19ci2'
+    condition: keywords
+falsepositives:
+    - Unlikely; the strings are specific to the published indicators
+level: high

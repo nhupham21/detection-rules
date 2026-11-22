@@ -1,0 +1,45 @@
+title: AWS AdministratorAccess Attached or Machine-Named IAM Identity Created - Including Denied Attempts
+id: e98ffdb7-e796-480b-b405-b48676fee2ed
+status: experimental
+description: |
+    Detects attempts, successful or denied, to attach the AdministratorAccess managed policy to an IAM
+    user, role or group, and creation of IAM users or roles named "i" followed by digits, the naming
+    pattern Barracuda reported for attacker-created resources. Barracuda says the intruder tried to
+    create a new administrative cloud identity and was blocked, so failed calls are kept on purpose.
+    Applying the naming pattern to IAM user and role names is an inference.
+references:
+    - https://blog.barracuda.com/2026/11/11/anatomy-of-a-machine-speed-intrusion
+    - https://trust.barracuda.com/security/barracuda-xdr-integration-credentials
+    - https://www.ic3.gov/CSA/2026/261113.pdf
+    - https://www.elastic.co/guide/en/security/current/aws-iam-administratoraccess-policy-attached-to-user.html
+    - https://netsec101.com/2026/11/22/barracuda-cloud-breach-artex-machine-speed-intrusion-sigma-detection-rules/
+author: netsec101.com
+date: 2026-11-17
+tags:
+    - attack.persistence
+    - attack.privilege-escalation
+    - attack.t1098.003
+logsource:
+    product: aws
+    service: cloudtrail
+detection:
+    selection_attach:
+        eventSource: 'iam.amazonaws.com'
+        eventName:
+            - 'AttachUserPolicy'
+            - 'AttachRolePolicy'
+            - 'AttachGroupPolicy'
+        requestParameters.policyArn|endswith: ':policy/AdministratorAccess'
+    selection_create_user:
+        eventSource: 'iam.amazonaws.com'
+        eventName: 'CreateUser'
+        requestParameters.userName|re: '^i[0-9]+$'
+    selection_create_role:
+        eventSource: 'iam.amazonaws.com'
+        eventName: 'CreateRole'
+        requestParameters.roleName|re: '^i[0-9]+$'
+    condition: 1 of selection_*
+falsepositives:
+    - Infrastructure-as-code pipelines or account-vending automation that attach AdministratorAccess to bootstrap roles; exclude those callers by userIdentity.arn
+    - Organisations that genuinely name identities with a short letter-plus-number scheme
+level: medium

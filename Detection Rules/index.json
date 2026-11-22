@@ -1,5 +1,27 @@
 [
     {
+        "id":  "e98ffdb7-e796-480b-b405-b48676fee2ed",
+        "title":  "AWS AdministratorAccess Attached or Machine-Named IAM Identity Created - Including Denied Attempts",
+        "domain":  "Cloud-AWS",
+        "path":  "Detection Rules/Cloud/AWS/aws_cloudtrail_privileged_identity_creation_attempt.yml",
+        "logsource":  "aws/cloudtrail",
+        "attack":  [
+                       "T1098.003"
+                   ],
+        "tactics":  [
+                        "persistence",
+                        "privilege-escalation"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "Barracuda cloud intrusion with ARTEX-style tooling (November 2026)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/2026/11/22/barracuda-cloud-breach-artex-machine-speed-intrusion-sigma-detection-rules/",
+        "updated":  "2026-11-22"
+    },
+    {
         "id":  "d9f4e825-a4ea-4854-a392-7578f70c0e0e",
         "title":  "AWS API Call Made With the DryRun Flag",
         "domain":  "Cloud-AWS",
@@ -18,6 +40,27 @@
 
                  ],
         "article":  "https://netsec101.com/2026/11/22/artex-agentic-ai-pentest-framework-sigma-detection-rules/",
+        "updated":  "2026-11-22"
+    },
+    {
+        "id":  "b6ad40af-9830-4350-ae2b-c3a597b5da33",
+        "title":  "AWS CloudTrail Activity From Barracuda ARTEX-Style Intrusion Indicators",
+        "domain":  "Cloud-AWS",
+        "path":  "Detection Rules/Cloud/AWS/aws_cloudtrail_barracuda_artex_intrusion_ioc_ip_user_agent.yml",
+        "logsource":  "aws/cloudtrail",
+        "attack":  [
+                       "T1078"
+                   ],
+        "tactics":  [
+                        "initial-access"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "Barracuda cloud intrusion with ARTEX-style tooling (November 2026)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/2026/11/22/barracuda-cloud-breach-artex-machine-speed-intrusion-sigma-detection-rules/",
         "updated":  "2026-11-22"
     },
     {
@@ -88,6 +131,28 @@
         "updated":  "2026-11-22"
     },
     {
+        "id":  "9ec9233a-89c5-4a33-a9cf-ba8c826adfbe",
+        "title":  "AWS Secrets Manager Secret Read With Long-Lived IAM User Access Key",
+        "domain":  "Cloud-AWS",
+        "path":  "Detection Rules/Cloud/AWS/aws_cloudtrail_secretsmanager_read_by_long_lived_access_key.yml",
+        "logsource":  "aws/cloudtrail",
+        "attack":  [
+                       "T1555.006",
+                       "T1078"
+                   ],
+        "tactics":  [
+                        "credential-access"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "Barracuda cloud intrusion with ARTEX-style tooling (November 2026)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/2026/11/22/barracuda-cloud-breach-artex-machine-speed-intrusion-sigma-detection-rules/",
+        "updated":  "2026-11-22"
+    },
+    {
         "id":  "e6881822-164a-4638-8c97-f21050921796",
         "title":  "Azure Key Vault Secret Read",
         "domain":  "Cloud-Azure",
@@ -127,6 +192,27 @@
 
                  ],
         "article":  "https://netsec101.com/2026/11/22/artex-agentic-ai-pentest-framework-sigma-detection-rules/",
+        "updated":  "2026-11-22"
+    },
+    {
+        "id":  "26d77d79-fab9-49c2-8354-1507caf2637c",
+        "title":  "GitHub Audit Event Referencing Barracuda ARTEX-Style CI Workflow or Branch Names",
+        "domain":  "Cloud-SaaS",
+        "path":  "Detection Rules/Cloud/SaaS/github_audit_barracuda_artex_ci_workflow_branch_names.yml",
+        "logsource":  "github/audit",
+        "attack":  [
+                       "T1552.001"
+                   ],
+        "tactics":  [
+                        "credential-access"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "Barracuda cloud intrusion with ARTEX-style tooling (November 2026)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/2026/11/22/barracuda-cloud-breach-artex-machine-speed-intrusion-sigma-detection-rules/",
         "updated":  "2026-11-22"
     },
     {
@@ -341,6 +427,27 @@
                      "CVE-2026-123637"
                  ],
         "article":  "https://netsec101.com/?p=412",
+        "updated":  "2026-11-22"
+    },
+    {
+        "id":  "d27a1900-f4d1-487a-afd2-044c95b19894",
+        "title":  "Kubernetes Pod Created With Host Root Filesystem Mounted via hostPath",
+        "domain":  "Kubernetes",
+        "path":  "Detection Rules/Kubernetes/kubernetes_audit_pod_host_root_filesystem_mount.yml",
+        "logsource":  "kubernetes/audit",
+        "attack":  [
+                       "T1552.001"
+                   ],
+        "tactics":  [
+                        "credential-access"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "Barracuda cloud intrusion with ARTEX-style tooling (November 2026)",
+        "cves":  [
+
+                 ],
+        "article":  "https://netsec101.com/2026/11/22/barracuda-cloud-breach-artex-machine-speed-intrusion-sigma-detection-rules/",
         "updated":  "2026-11-22"
     },
     {
