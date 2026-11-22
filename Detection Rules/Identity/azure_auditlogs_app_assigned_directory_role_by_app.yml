@@ -10,7 +10,7 @@ references:
     - https://www.huntress.com/blog/vendor-credential-enables-unauthorized-access
     - https://www.microsoft.com/en-us/security/blog/2026/10/21/storm-0940-uses-artex-agentic-ai-connectwise-supply-chain-compromise/
     - https://github.com/SigmaHQ/sigma/blob/master/rules/cloud/azure/audit_logs/azure_app_role_added.yml
-    - https://netsec101.com/?p=440
+    - https://netsec101.com/2026/11/22/artex-agentic-ai-pentest-framework-sigma-detection-rules/
 author: netsec101.com
 date: 2026-11-22
 tags:

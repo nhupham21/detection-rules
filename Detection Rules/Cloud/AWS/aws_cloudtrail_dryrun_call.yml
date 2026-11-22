@@ -9,7 +9,7 @@ description: |
 references:
     - https://www.ic3.gov/CSA/2026/261113.pdf
     - https://repost.aws/questions/QUPHL9FYTHSrCE4eaMjJD66Q/cloudtrail-client-dryrunoperation
-    - https://netsec101.com/?p=440
+    - https://netsec101.com/2026/11/22/artex-agentic-ai-pentest-framework-sigma-detection-rules/
 author: netsec101.com
 date: 2026-11-22
 tags:

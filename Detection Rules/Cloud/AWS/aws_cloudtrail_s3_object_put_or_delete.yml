@@ -7,7 +7,7 @@ description: |
     data events. Requires CloudTrail S3 data events, which are off by default.
 references:
     - https://unit42.paloaltonetworks.com/artex-and-ai-powered-red-teaming-tools/
-    - https://netsec101.com/?p=440
+    - https://netsec101.com/2026/11/22/artex-agentic-ai-pentest-framework-sigma-detection-rules/
 author: netsec101.com
 date: 2026-11-22
 tags:
