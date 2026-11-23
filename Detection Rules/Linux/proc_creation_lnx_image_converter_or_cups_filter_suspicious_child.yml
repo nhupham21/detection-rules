@@ -1,0 +1,84 @@
+title: Image Converter, PHP or CUPS Filter Spawning Download Tool or Suspicious Shell as Service Account
+id: 82a7bb2c-e41d-4241-8367-913ab6251b2a
+status: experimental
+description: |
+    Detects ImageMagick, libvips, PHP, Python, web server or CUPS filter processes running as a web or print service account
+    that start a download or network tool, or a shell whose command line fetches or opens a connection. Catches the Upload2Shell
+    chain one level up, including builds where Ghostscript runs in-process (libgs). Inferred from the pwn.ai process context, not from incident data.
+references:
+    - https://pwn.ai/upload2shell/research.html
+    - https://www.cve.org/CVERecord?id=CVE-2026-125396
+    - https://www.patchstack.com/articles/when-a-png-isnt-a-png-wordpress-patches-an-author-level-imagick-rce/
+    - https://github.com/ImageMagick/ImageMagick/blob/main/config/delegates.xml.in
+    - https://netsec101.com/?p=476
+author: netsec101.com
+date: 2026-11-23
+tags:
+    - attack.execution
+    - attack.t1059.004
+    - attack.command-and-control
+    - attack.t1105
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-125396
+logsource:
+    product: linux
+    category: process_creation
+detection:
+    selection_parent_web_name:
+        ParentImage|endswith:
+            - '/convert'
+            - '/magick'
+            - '/mogrify'
+            - '/identify'
+            - '/montage'
+            - '/vips'
+            - '/apache2'
+            - '/httpd'
+    selection_parent_web_versioned:
+        ParentImage|re: '/(php-fpm[0-9.]*|php[0-9.]*|python[0-9.]*)$'
+    selection_parent_cups:
+        ParentImage|contains: '/cups/filter/'
+    selection_user:
+        User:
+            - 'www-data'
+            - 'apache'
+            - 'nginx'
+            - 'http'
+            - 'lp'
+            - 'roundcube_sysuser'
+    selection_child_tool:
+        Image|endswith:
+            - '/curl'
+            - '/wget'
+            - '/nc'
+            - '/ncat'
+            - '/netcat'
+            - '/socat'
+            - '/telnet'
+            - '/busybox'
+    selection_child_shell:
+        Image|endswith:
+            - '/sh'
+            - '/bash'
+            - '/dash'
+        CommandLine|contains:
+            - 'curl '
+            - 'wget '
+            - '/dev/tcp/'
+            - '/dev/udp/'
+            - 'nc '
+            - 'ncat '
+            - 'socat '
+            - 'base64 -d'
+            - '/dev/shm/'
+    filter_main_gs_delegate:
+        # ImageMagick's gs delegate commands (delegates.xml) set -sDEVICE=; a shell carrying that is a delegate call, not a payload
+        CommandLine|contains: '-sDEVICE='
+    # CUPS filters are often shell scripts, so CUPS parents only match download/network tools, never shells
+    condition: ((1 of selection_parent_web_* and 1 of selection_child_*) or (selection_parent_cups and selection_child_tool)) and selection_user and not filter_main_gs_delegate
+falsepositives:
+    - PHP or Python applications that legitimately shell out to curl or wget (update checkers, webhooks); exclude by full command line after a baseline
+    - CUPS backends or custom filters that fetch resources over the network
+    - Service accounts named differently on your distribution; extend the user list rather than removing it
+level: medium

@@ -1,0 +1,48 @@
+title: HTTP Upload of PostScript Content With an Image or PDF File Name - Upload2Shell Delivery
+id: 7bd3de21-4aff-4be3-b42d-2244ebbee66c
+status: experimental
+description: |
+    Detects an HTTP upload whose body Zeek's content sniffing identifies as PostScript (it starts with %!PS) while the uploaded
+    file name ends in an image or PDF extension. This is the Upload2Shell delivery trick: ImageMagick and Pillow pick a decoder
+    by content, so a .jpg, .png or .pdf full of PostScript reaches Ghostscript. Needs cleartext HTTP visibility (after TLS termination).
+references:
+    - https://pwn.ai/upload2shell/research.html
+    - https://www.patchstack.com/articles/when-a-png-isnt-a-png-wordpress-patches-an-author-level-imagick-rce/
+    - https://www.cve.org/CVERecord?id=CVE-2026-125396
+    - https://netsec101.com/?p=476
+author: netsec101.com
+date: 2026-11-23
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - attack.defense-evasion
+    - attack.t1036.008
+    - cve.2026-125396
+    - cve.2026-65640
+    - detection.emerging-threats
+logsource:
+    product: zeek
+    service: http
+detection:
+    selection_method:
+        method:
+            - 'POST'
+            - 'PUT'
+    selection_mime:
+        orig_mime_types|contains: 'application/postscript'
+    selection_name:
+        orig_filenames|endswith:
+            - '.jpg'
+            - '.jpeg'
+            - '.png'
+            - '.gif'
+            - '.bmp'
+            - '.tif'
+            - '.tiff'
+            - '.webp'
+            - '.pdf'
+    condition: all of selection_*
+falsepositives:
+    - Print, prepress or design portals where users upload EPS artwork under the wrong extension; scope to upload endpoints of apps that never accept PostScript
+    - Zeek only fills orig_filenames when the multipart part carries a file name; drop selection_name for a broader, noisier hunt
+level: medium

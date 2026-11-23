@@ -1,0 +1,35 @@
+title: Outbound Network Connection Initiated by Ghostscript
+id: c8efc9fe-8344-4263-a90a-a5093c46df3c
+status: experimental
+description: |
+    Detects a Ghostscript process (gs, gsc, ghostscript) initiating a network connection to a non-loopback address. A renderer
+    that converts or thumbnails documents has no reason to talk to the network, so a connection suggests the interpreter is
+    running attacker code after a -dSAFER escape such as CVE-2026-125396. Inferred from the bug class; pwn.ai published no network indicators.
+references:
+    - https://pwn.ai/upload2shell/research.html
+    - https://www.cve.org/CVERecord?id=CVE-2026-125396
+    - https://netsec101.com/?p=476
+author: netsec101.com
+date: 2026-11-23
+tags:
+    - attack.command-and-control
+    - attack.t1105
+    - cve.2026-125396
+logsource:
+    product: linux
+    category: network_connection
+detection:
+    selection:
+        Image|endswith:
+            - '/gs'
+            - '/gsc'
+            - '/ghostscript'
+        Initiated: 'true'
+    filter_main_loopback:
+        DestinationIp|cidr:
+            - '127.0.0.0/8'
+            - '::1/128'
+    condition: selection and not filter_main_loopback
+falsepositives:
+    - Print servers where Ghostscript itself writes to a network printer socket configured on its command line; confirm which printer ports your print path uses and scope out those hosts and ports
+level: high

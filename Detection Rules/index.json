@@ -541,6 +541,78 @@
         "updated":  "2026-11-16"
     },
     {
+        "id":  "fce501fb-70ab-4899-b2a0-1634140ed9cd",
+        "title":  "Ghostscript or Web/Print Service Account Writing Scripts or Unexpected Files to Temp Directories",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/file_event_lnx_ghostscript_or_service_account_temp_write.yml",
+        "logsource":  "linux/file_event",
+        "attack":  [
+                       "T1105"
+                   ],
+        "tactics":  [
+                        "command-and-control"
+                    ],
+        "level":  "low",
+        "status":  "experimental",
+        "case":  "Ghostscript Upload2Shell -dSAFER escape (CVE-2026-125396)",
+        "cves":  [
+                     "CVE-2026-125396",
+                     "CVE-2026-65640"
+                 ],
+        "article":  "https://netsec101.com/?p=476",
+        "updated":  "2026-11-23"
+    },
+    {
+        "id":  "9a8d85d9-4f81-45f2-906b-1bf101ade773",
+        "title":  "Ghostscript Spawning Shell, Interpreter or Download Tool - Potential -dSAFER Escape",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/proc_creation_lnx_ghostscript_spawns_shell_or_tool.yml",
+        "logsource":  "linux/process_creation",
+        "attack":  [
+                       "T1059.004",
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "execution",
+                        "initial-access"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "Ghostscript Upload2Shell -dSAFER escape (CVE-2026-125396)",
+        "cves":  [
+                     "CVE-2026-125396",
+                     "CVE-2026-65640"
+                 ],
+        "article":  "https://netsec101.com/?p=476",
+        "updated":  "2026-11-23"
+    },
+    {
+        "id":  "82a7bb2c-e41d-4241-8367-913ab6251b2a",
+        "title":  "Image Converter, PHP or CUPS Filter Spawning Download Tool or Suspicious Shell as Service Account",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/proc_creation_lnx_image_converter_or_cups_filter_suspicious_child.yml",
+        "logsource":  "linux/process_creation",
+        "attack":  [
+                       "T1059.004",
+                       "T1105",
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "execution",
+                        "command-and-control",
+                        "initial-access"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "Ghostscript Upload2Shell -dSAFER escape (CVE-2026-125396)",
+        "cves":  [
+                     "CVE-2026-125396",
+                     "CVE-2026-65640"
+                 ],
+        "article":  "https://netsec101.com/?p=476",
+        "updated":  "2026-11-23"
+    },
+    {
         "id":  "79dc7647-a4e7-41cc-a26e-a9f45d93af95",
         "title":  "N-central Java Process Spawning Download Tool, Interpreter or Non-stty Shell",
         "domain":  "Linux",
@@ -648,6 +720,28 @@
                  ],
         "article":  "https://netsec101.com/?p=242",
         "updated":  "2026-11-16"
+    },
+    {
+        "id":  "c8efc9fe-8344-4263-a90a-a5093c46df3c",
+        "title":  "Outbound Network Connection Initiated by Ghostscript",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/net_connection_lnx_ghostscript_outbound_connection.yml",
+        "logsource":  "linux/network_connection",
+        "attack":  [
+                       "T1105"
+                   ],
+        "tactics":  [
+                        "command-and-control"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "Ghostscript Upload2Shell -dSAFER escape (CVE-2026-125396)",
+        "cves":  [
+                     "CVE-2026-125396",
+                     "CVE-2026-65640"
+                 ],
+        "article":  "https://netsec101.com/?p=476",
+        "updated":  "2026-11-23"
     },
     {
         "id":  "2e635140-37d2-48cd-913d-ee473f0b36f9",
@@ -952,6 +1046,30 @@
                  ],
         "article":  "https://netsec101.com/?p=412",
         "updated":  "2026-11-22"
+    },
+    {
+        "id":  "7bd3de21-4aff-4be3-b42d-2244ebbee66c",
+        "title":  "HTTP Upload of PostScript Content With an Image or PDF File Name - Upload2Shell Delivery",
+        "domain":  "Network",
+        "path":  "Detection Rules/Network/zeek_http_upload_postscript_disguised_as_image_or_pdf.yml",
+        "logsource":  "zeek/http",
+        "attack":  [
+                       "T1190",
+                       "T1036.008"
+                   ],
+        "tactics":  [
+                        "initial-access",
+                        "defense-evasion"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "Ghostscript Upload2Shell -dSAFER escape (CVE-2026-125396)",
+        "cves":  [
+                     "CVE-2026-125396",
+                     "CVE-2026-65640"
+                 ],
+        "article":  "https://netsec101.com/?p=476",
+        "updated":  "2026-11-23"
     },
     {
         "id":  "185aa0a0-dcd3-4a2e-843f-a167baacc63c",
