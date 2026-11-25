@@ -1,0 +1,31 @@
+title: Azure App Service Source Control or Site Extension Changed
+id: 4053a354-7f2c-413a-9b0d-98efe1ca0b68
+status: experimental
+description: |
+    Detects changes to an App Service app's source control (deployment source) configuration, or installation of a site
+    extension, on the app or a slot. Either one lets a caller run code inside the app. Hunting and hardening rule for
+    App Service config abuse, not an exploit signature for CVE-2026-58630.
+references:
+    - https://learn.microsoft.com/en-us/azure/role-based-access-control/permissions/web-and-mobile
+    - https://learn.microsoft.com/en-us/azure/app-service/monitor-app-service-reference
+    - https://netsec101.com/?p=502
+author: netsec101.com
+date: 2026-11-25
+tags:
+    - attack.persistence
+    - attack.t1505
+logsource:
+    product: azure
+    service: activitylogs
+detection:
+    selection:
+        operationName:
+            - 'MICROSOFT.WEB/SITES/SOURCECONTROLS/WRITE'
+            - 'MICROSOFT.WEB/SITES/SLOTS/SOURCECONTROLS/WRITE'
+            - 'MICROSOFT.WEB/SITES/EXTENSIONS/WRITE'
+            - 'MICROSOFT.WEB/SITES/SLOTS/EXTENSIONS/WRITE'
+    condition: selection
+falsepositives:
+    - Initial setup of GitHub Actions or Azure DevOps deployment from the portal Deployment Center
+    - Teams that install site extensions such as monitoring agents; scope to production apps and known owners
+level: medium

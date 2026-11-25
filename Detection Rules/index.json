@@ -153,6 +153,134 @@
         "updated":  "2026-11-22"
     },
     {
+        "id":  "3c3f0ea3-b47b-47c1-96f1-59e7ea4f1ee3",
+        "title":  "Azure App Service Basic Auth Publishing Policy Changed",
+        "domain":  "Cloud-Azure",
+        "path":  "Detection Rules/Cloud/Azure/azure_app_service_basic_auth_publishing_policy_changed.yml",
+        "logsource":  "azure/activitylogs",
+        "attack":  [
+                       "T1556"
+                   ],
+        "tactics":  [
+                        "persistence"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "Azure App Service CVSS 10 EoP with no customer action (CVE-2026-58630)",
+        "cves":  [
+                     "CVE-2026-58630"
+                 ],
+        "article":  "https://netsec101.com/?p=502",
+        "updated":  "2026-11-25"
+    },
+    {
+        "id":  "f76d71dd-63dc-4f23-8283-15c6f486f4b8",
+        "title":  "Azure App Service Publishing Login With Basic Credentials",
+        "domain":  "Cloud-Azure",
+        "path":  "Detection Rules/Cloud/Azure/azure_app_service_publishing_login_basic_auth.yml",
+        "logsource":  "azure/appserviceauditlogs",
+        "attack":  [
+                       "T1078.004"
+                   ],
+        "tactics":  [
+                        "persistence"
+                    ],
+        "level":  "low",
+        "status":  "experimental",
+        "case":  "Azure App Service CVSS 10 EoP with no customer action (CVE-2026-58630)",
+        "cves":  [
+                     "CVE-2026-58630"
+                 ],
+        "article":  "https://netsec101.com/?p=502",
+        "updated":  "2026-11-25"
+    },
+    {
+        "id":  "1619694c-4499-4da8-b517-04386221afcb",
+        "title":  "Azure App Service Publishing Profile Retrieved",
+        "domain":  "Cloud-Azure",
+        "path":  "Detection Rules/Cloud/Azure/azure_app_service_publishing_profile_retrieved.yml",
+        "logsource":  "azure/activitylogs",
+        "attack":  [
+                       "T1552"
+                   ],
+        "tactics":  [
+                        "credential-access"
+                    ],
+        "level":  "medium",
+        "status":  "test",
+        "case":  "Azure App Service CVSS 10 EoP with no customer action (CVE-2026-58630)",
+        "cves":  [
+                     "CVE-2026-58630"
+                 ],
+        "article":  "https://netsec101.com/?p=502",
+        "updated":  "2026-11-25"
+    },
+    {
+        "id":  "e4c61c2a-dcaf-47f7-9685-ac7fe75fc695",
+        "title":  "Azure App Service Publishing Profile Retrieved Then Used For Basic Login",
+        "domain":  "Cloud-Azure",
+        "path":  "Detection Rules/Cloud/Azure/azure_app_service_publishxml_then_basic_login_correlation.yml",
+        "logsource":  "correlation (azure/activitylogs + azure/appserviceauditlogs)",
+        "attack":  [
+                       "T1552",
+                       "T1078.004"
+                   ],
+        "tactics":  [
+                        "credential-access",
+                        "persistence"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "Azure App Service CVSS 10 EoP with no customer action (CVE-2026-58630)",
+        "cves":  [
+                     "CVE-2026-58630"
+                 ],
+        "article":  "https://netsec101.com/?p=502",
+        "updated":  "2026-11-25"
+    },
+    {
+        "id":  "26acce63-709c-4cbb-a608-6d163674c25d",
+        "title":  "Azure App Service Sensitive Settings or Functions Keys Listed",
+        "domain":  "Cloud-Azure",
+        "path":  "Detection Rules/Cloud/Azure/azure_app_service_sensitive_settings_or_keys_listed.yml",
+        "logsource":  "azure/activitylogs",
+        "attack":  [
+                       "T1552"
+                   ],
+        "tactics":  [
+                        "credential-access"
+                    ],
+        "level":  "low",
+        "status":  "experimental",
+        "case":  "Azure App Service CVSS 10 EoP with no customer action (CVE-2026-58630)",
+        "cves":  [
+                     "CVE-2026-58630"
+                 ],
+        "article":  "https://netsec101.com/?p=502",
+        "updated":  "2026-11-25"
+    },
+    {
+        "id":  "4053a354-7f2c-413a-9b0d-98efe1ca0b68",
+        "title":  "Azure App Service Source Control or Site Extension Changed",
+        "domain":  "Cloud-Azure",
+        "path":  "Detection Rules/Cloud/Azure/azure_app_service_source_control_or_extension_changed.yml",
+        "logsource":  "azure/activitylogs",
+        "attack":  [
+                       "T1505"
+                   ],
+        "tactics":  [
+                        "persistence"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "Azure App Service CVSS 10 EoP with no customer action (CVE-2026-58630)",
+        "cves":  [
+                     "CVE-2026-58630"
+                 ],
+        "article":  "https://netsec101.com/?p=502",
+        "updated":  "2026-11-25"
+    },
+    {
         "id":  "e6881822-164a-4638-8c97-f21050921796",
         "title":  "Azure Key Vault Secret Read",
         "domain":  "Cloud-Azure",

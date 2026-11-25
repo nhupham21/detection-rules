@@ -1,0 +1,31 @@
+title: Azure App Service Publishing Profile Retrieved
+id: 1619694c-4499-4da8-b517-04386221afcb
+name: azure_app_service_publishxml
+status: test
+description: |
+    Detects retrieval of an App Service or slot publishing profile through the Azure management plane. Microsoft says the
+    profile often contains basic-auth credentials for FTP, Web Deploy and Kudu; Storm-2949 used this action to compromise
+    App Service apps. Hunting and hardening rule, not an exploit signature for CVE-2026-58630 (no IOCs are public).
+references:
+    - https://github.com/DataDog/stratus-red-team/blob/main/docs/attack-techniques/azure/azure.credential-access.app-service-publishing-credentials.md
+    - https://www.microsoft.com/en-us/security/blog/2026/05/18/storm-2949-turned-compromised-identity-into-cloud-wide-breach/
+    - https://learn.microsoft.com/en-us/azure/role-based-access-control/permissions/web-and-mobile
+    - https://netsec101.com/?p=502
+author: netsec101.com
+date: 2026-11-25
+tags:
+    - attack.credential-access
+    - attack.t1552
+logsource:
+    product: azure
+    service: activitylogs
+detection:
+    selection:
+        operationName:
+            - 'MICROSOFT.WEB/SITES/PUBLISHXML/ACTION'
+            - 'MICROSOFT.WEB/SITES/SLOTS/PUBLISHXML/ACTION'
+    condition: selection
+falsepositives:
+    - Developers clicking "Download publish profile" in the portal, or Visual Studio and older pipeline tasks that import a profile
+    - Infrastructure-as-code or backup tooling that exports profiles; baseline callers per app and alert on a new caller or IP
+level: medium

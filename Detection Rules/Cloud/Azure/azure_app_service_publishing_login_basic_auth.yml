@@ -1,0 +1,31 @@
+title: Azure App Service Publishing Login With Basic Credentials
+id: f76d71dd-63dc-4f23-8283-15c6f486f4b8
+name: azure_app_service_publishing_login_basic
+status: experimental
+description: |
+    Hunting rule for FTP, Web Deploy or Kudu login events on an App Service app where UserDisplayName holds no email
+    address. Microsoft documents an email there for Entra-authorised publishing, and its basic-auth FTP example shows
+    the $app publishing user instead; treating "no @" as basic auth is my inference. Not a CVE-2026-58630 signature.
+references:
+    - https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/appserviceauditlogs
+    - https://learn.microsoft.com/en-us/azure/app-service/configure-basic-auth-disable
+    - https://netsec101.com/?p=502
+author: netsec101.com
+date: 2026-11-25
+tags:
+    - attack.persistence
+    - attack.t1078.004
+    - detection.threat-hunting
+logsource:
+    product: azure
+    service: appserviceauditlogs
+detection:
+    selection:
+        Category: 'AppServiceAuditLogs'
+    filter_main_entra_user:
+        UserDisplayName|contains: '@'
+    condition: selection and not filter_main_entra_user
+falsepositives:
+    - Legacy FTP or Web Deploy pipelines that still use the publishing profile; move them to OIDC or managed identity
+    - Apps where basic auth is intentionally enabled
+level: low

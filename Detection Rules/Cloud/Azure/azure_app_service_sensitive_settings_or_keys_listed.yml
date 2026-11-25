@@ -1,0 +1,33 @@
+title: Azure App Service Sensitive Settings or Functions Keys Listed
+id: 26acce63-709c-4cbb-a608-6d163674c25d
+status: experimental
+description: |
+    Hunting rule for listing App Service security-sensitive settings (publishing credentials, app settings, connection
+    strings) or Azure Functions host and function keys through the management plane. Useful for a retro-hunt by caller
+    and IP; noisy as an alert. Not an exploit signature for CVE-2026-58630.
+references:
+    - https://learn.microsoft.com/en-us/azure/role-based-access-control/permissions/web-and-mobile
+    - https://netsec101.com/?p=502
+author: netsec101.com
+date: 2026-11-25
+tags:
+    - attack.credential-access
+    - attack.t1552
+    - detection.threat-hunting
+logsource:
+    product: azure
+    service: activitylogs
+detection:
+    selection:
+        operationName:
+            - 'MICROSOFT.WEB/SITES/CONFIG/LIST/ACTION'
+            - 'MICROSOFT.WEB/SITES/SLOTS/CONFIG/LIST/ACTION'
+            - 'MICROSOFT.WEB/SITES/HOST/LISTKEYS/ACTION'
+            - 'MICROSOFT.WEB/SITES/SLOTS/HOST/LISTKEYS/ACTION'
+            - 'MICROSOFT.WEB/SITES/FUNCTIONS/LISTKEYS/ACTION'
+            - 'MICROSOFT.WEB/SITES/SLOTS/FUNCTIONS/LISTKEYS/ACTION'
+    condition: selection
+falsepositives:
+    - The portal Configuration and Function keys blades call these actions whenever someone opens them
+    - Deployment pipelines, Terraform and the Azure CLI read settings and keys on every run
+level: low

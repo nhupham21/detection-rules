@@ -1,0 +1,33 @@
+title: Azure App Service Publishing Profile Retrieved Then Used For Basic Login
+id: e4c61c2a-dcaf-47f7-9685-ac7fe75fc695
+status: experimental
+description: |
+    Detects a publishing profile download followed, within one hour, by a basic-credential FTP, Web Deploy or Kudu login
+    on the same App Service resource, the sequence Microsoft's Storm-2949 report describes. Hunting and
+    hardening rule, not an exploit signature for CVE-2026-58630; the one-hour window is my choice, not a source value.
+references:
+    - https://www.microsoft.com/en-us/security/blog/2026/05/18/storm-2949-turned-compromised-identity-into-cloud-wide-breach/
+    - https://github.com/DataDog/stratus-red-team/blob/main/docs/attack-techniques/azure/azure.credential-access.app-service-publishing-credentials.md
+    - https://netsec101.com/?p=502
+author: netsec101.com
+date: 2026-11-25
+tags:
+    - attack.credential-access
+    - attack.persistence
+    - attack.t1552
+    - attack.t1078.004
+correlation:
+    type: temporal_ordered
+    rules:
+        - azure_app_service_publishxml
+        - azure_app_service_publishing_login_basic
+    aliases:
+        app_resource:
+            azure_app_service_publishxml: resourceId
+            azure_app_service_publishing_login_basic: _ResourceId
+    group-by:
+        - app_resource
+    timespan: 1h
+falsepositives:
+    - A developer who downloads the profile and deploys with it from Visual Studio or an FTP client in the same hour
+level: high
