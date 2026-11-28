@@ -1,0 +1,34 @@
+title: Drupal Installer POST Request - Potential CVE-2026-136716 / CVE-2026-132165 Site Takeover
+id: d251aa0a-f5e0-4e6a-85f2-31c59d86e62c
+status: test
+description: |
+    Detects HTTP POST requests to the Drupal installer (install.php). Drupal names the installer as the vector for both
+    exploited flaws, SA-CORE-2026-017 and SA-CORE-2026-019. A reinstall most likely requires submitting installer
+    forms (inference), which a site that is already installed should never receive.
+references:
+    - https://www.drupal.org/sa-core-2026-019
+    - https://www.drupal.org/sa-core-2026-017
+    - https://www.drupal.org/docs/administering-a-drupal-site/security-in-drupal/securing-the-installer-installphp
+    - https://netsec101.com/2026/11/28/drupal-installer-takeover-cve-2026-136716-exploited-sigma-detection-rules/
+author: netsec101.com
+date: 2026-11-28
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-136716
+    - cve.2026-132165
+    - detection.emerging-threats
+logsource:
+    category: webserver
+detection:
+    selection_path:
+        cs-uri-stem|contains:
+            - '/core/install.php'
+            - '/install.php'
+    selection_method:
+        cs-method: 'POST'
+    condition: all of selection_*
+falsepositives:
+    - Building a brand new Drupal site or adding a multisite site through the browser installer
+    - Staging or development hosts that are reinstalled on purpose (scope the rule to production hosts)
+level: high

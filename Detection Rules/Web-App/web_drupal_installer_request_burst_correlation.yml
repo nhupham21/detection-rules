@@ -1,0 +1,60 @@
+title: Drupal Installer Request From Any Client
+id: 75e838b2-152b-43ec-b7a4-413b0331d848
+name: web_drupal_installer_request_any
+status: experimental
+description: |
+    Base rule for the burst correlation below: any request to the Drupal installer. Not meant to alert on its own.
+references:
+    - https://www.drupal.org/sa-core-2026-017
+    - https://netsec101.com/2026/11/28/drupal-installer-takeover-cve-2026-136716-exploited-sigma-detection-rules/
+author: netsec101.com
+date: 2026-11-28
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-132165
+    - detection.threat-hunting
+logsource:
+    category: webserver
+detection:
+    selection:
+        cs-uri-stem|contains:
+            - '/core/install.php'
+            - '/install.php'
+    condition: selection
+falsepositives:
+    - Uptime checks or scanners that request install.php
+level: low
+---
+title: Burst Of Drupal Installer Requests From One Client - Potential Fail2Install Attempt
+id: 8d2db544-b525-4e65-9bb3-fad5250d6ca7
+status: experimental
+description: |
+    Detects one client sending many requests to the Drupal installer within a minute. The Fail2Install technique
+    (CVE-2026-132165) relies on making database checks fail at the right moment, so I expect attempts to repeat the
+    installer request many times (inference). The threshold of 30 per minute is my own starting point, not a source value.
+references:
+    - https://www.slcyber.io/research/fail2install-system-limits-pre-auth-rce-drupal
+    - https://www.drupal.org/sa-core-2026-017
+    - https://netsec101.com/2026/11/28/drupal-installer-takeover-cve-2026-136716-exploited-sigma-detection-rules/
+author: netsec101.com
+date: 2026-11-28
+tags:
+    - attack.initial-access
+    - attack.t1190
+    - cve.2026-132165
+    - detection.emerging-threats
+correlation:
+    type: event_count
+    rules:
+        - web_drupal_installer_request_any
+    group-by:
+        - c-ip
+        - cs-host
+    timespan: 1m
+    condition:
+        gte: 30
+falsepositives:
+    - Load tests or security scans aimed at the site
+    - Many users behind one NAT or proxy address (group by X-Forwarded-For if your logs keep it)
+level: medium

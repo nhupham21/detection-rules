@@ -1,0 +1,29 @@
+title: Drupal PHP File Requested With Trailing /core/ Path - Potential Fail2Install Code Execution
+id: aba8fc39-98da-47fa-be7a-8609c0d87300
+status: experimental
+description: |
+    Detects requests where a .php path is followed by an extra /core/<name>.php segment. Searchlight Cyber says a crafted
+    path got past the stock Drupal Apache .htaccess rule in the Fail2Install chain (CVE-2026-132165); the CSA and Hive
+    Security write-ups list this path shape as an indicator. Built from published research, not from vendor IOCs.
+references:
+    - https://www.slcyber.io/research/fail2install-system-limits-pre-auth-rce-drupal
+    - https://labs.cloudsecurityalliance.org/research/csa-research-note-drupal-fail2install-ai-found-installer-tak/
+    - https://hivesecurity.gitlab.io/blog/drupal-cve-2026-136716-installer-takeover/
+    - https://www.drupal.org/sa-core-2026-017
+    - https://netsec101.com/2026/11/28/drupal-installer-takeover-cve-2026-136716-exploited-sigma-detection-rules/
+author: netsec101.com
+date: 2026-11-28
+tags:
+    - attack.persistence
+    - attack.t1505.003
+    - cve.2026-132165
+    - detection.emerging-threats
+logsource:
+    category: webserver
+detection:
+    selection:
+        cs-uri-stem|re: '\.php/core/[^/]*\.php'
+    condition: selection
+falsepositives:
+    - Scanners and vulnerability checks that probe this path pattern (still worth a look on a Drupal host)
+level: high

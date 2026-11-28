@@ -872,6 +872,28 @@
         "updated":  "2026-11-23"
     },
     {
+        "id":  "9857fb99-344e-4407-8333-68aadb13f0f1",
+        "title":  "PHP File Created In Drupal Public Files Directory",
+        "domain":  "Linux",
+        "path":  "Detection Rules/Linux/file_event_lnx_drupal_php_file_in_public_files.yml",
+        "logsource":  "linux/file_event",
+        "attack":  [
+                       "T1505.003"
+                   ],
+        "tactics":  [
+                        "persistence"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "Drupal installer takeover (CVE-2026-136716 / CVE-2026-132165 Fail2Install)",
+        "cves":  [
+                     "CVE-2026-136716",
+                     "CVE-2026-132165"
+                 ],
+        "article":  "https://netsec101.com/2026/11/28/drupal-installer-takeover-cve-2026-136716-exploited-sigma-detection-rules/",
+        "updated":  "2026-11-28"
+    },
+    {
         "id":  "2e635140-37d2-48cd-913d-ee473f0b36f9",
         "title":  "Potential CVE-2026-123158 Exploitation - SSH Password Login To Root Or Alpine Account",
         "domain":  "Linux",
@@ -1289,6 +1311,72 @@
                  ],
         "article":  "https://netsec101.com/?p=241",
         "updated":  "2026-11-16"
+    },
+    {
+        "id":  "8d2db544-b525-4e65-9bb3-fad5250d6ca7",
+        "title":  "Burst Of Drupal Installer Requests From One Client - Potential Fail2Install Attempt",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_drupal_installer_request_burst_correlation.yml",
+        "logsource":  "correlation (webserver)",
+        "attack":  [
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "initial-access"
+                    ],
+        "level":  "medium",
+        "status":  "experimental",
+        "case":  "Drupal installer takeover (CVE-2026-136716 / CVE-2026-132165 Fail2Install)",
+        "cves":  [
+                     "CVE-2026-136716",
+                     "CVE-2026-132165"
+                 ],
+        "article":  "https://netsec101.com/2026/11/28/drupal-installer-takeover-cve-2026-136716-exploited-sigma-detection-rules/",
+        "updated":  "2026-11-28"
+    },
+    {
+        "id":  "d251aa0a-f5e0-4e6a-85f2-31c59d86e62c",
+        "title":  "Drupal Installer POST Request - Potential CVE-2026-136716 / CVE-2026-132165 Site Takeover",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_drupal_installer_post_request.yml",
+        "logsource":  "webserver",
+        "attack":  [
+                       "T1190"
+                   ],
+        "tactics":  [
+                        "initial-access"
+                    ],
+        "level":  "high",
+        "status":  "test",
+        "case":  "Drupal installer takeover (CVE-2026-136716 / CVE-2026-132165 Fail2Install)",
+        "cves":  [
+                     "CVE-2026-136716",
+                     "CVE-2026-132165"
+                 ],
+        "article":  "https://netsec101.com/2026/11/28/drupal-installer-takeover-cve-2026-136716-exploited-sigma-detection-rules/",
+        "updated":  "2026-11-28"
+    },
+    {
+        "id":  "aba8fc39-98da-47fa-be7a-8609c0d87300",
+        "title":  "Drupal PHP File Requested With Trailing /core/ Path - Potential Fail2Install Code Execution",
+        "domain":  "Web/App",
+        "path":  "Detection Rules/Web-App/web_drupal_php_path_info_core_bypass.yml",
+        "logsource":  "webserver",
+        "attack":  [
+                       "T1505.003"
+                   ],
+        "tactics":  [
+                        "persistence"
+                    ],
+        "level":  "high",
+        "status":  "experimental",
+        "case":  "Drupal installer takeover (CVE-2026-136716 / CVE-2026-132165 Fail2Install)",
+        "cves":  [
+                     "CVE-2026-136716",
+                     "CVE-2026-132165"
+                 ],
+        "article":  "https://netsec101.com/2026/11/28/drupal-installer-takeover-cve-2026-136716-exploited-sigma-detection-rules/",
+        "updated":  "2026-11-28"
     },
     {
         "id":  "9dc30520-911b-44ef-a532-16ff2ef66e47",

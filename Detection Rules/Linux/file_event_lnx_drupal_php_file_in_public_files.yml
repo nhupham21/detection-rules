@@ -1,0 +1,35 @@
+title: PHP File Created In Drupal Public Files Directory
+id: 9857fb99-344e-4407-8333-68aadb13f0f1
+status: experimental
+description: |
+    Detects creation of a .php file under a Drupal sites/<site>/files directory. CSA lists PHP files in the public files
+    directory as an indicator; excluding files/php/twig (the default compiled Twig cache) is my own tuning. A new PHP
+    file there points to a web shell or to a database file planted through the installer (Fail2Install chain).
+references:
+    - https://labs.cloudsecurityalliance.org/research/csa-research-note-drupal-fail2install-ai-found-installer-tak/
+    - https://www.slcyber.io/research/fail2install-system-limits-pre-auth-rce-drupal
+    - https://www.drupal.org/sa-core-2026-019
+    - https://netsec101.com/2026/11/28/drupal-installer-takeover-cve-2026-136716-exploited-sigma-detection-rules/
+author: netsec101.com
+date: 2026-11-28
+tags:
+    - attack.persistence
+    - attack.t1505.003
+    - cve.2026-132165
+    - cve.2026-136716
+logsource:
+    product: linux
+    category: file_event
+detection:
+    selection:
+        TargetFilename|contains: '/sites/'
+        TargetFilename|endswith: '.php'
+    selection_files_dir:
+        TargetFilename|contains: '/files/'
+    filter_main_twig_cache:
+        TargetFilename|contains: '/files/php/twig/'
+    condition: all of selection* and not 1 of filter_main_*
+falsepositives:
+    - Sites that moved the Twig cache or other generated PHP into a custom path under files/ (add that path as a filter)
+    - Backup or migration tools that copy PHP files into the files directory
+level: high
